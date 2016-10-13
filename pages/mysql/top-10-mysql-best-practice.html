@@ -1,0 +1,111 @@
+1. Index Search Fields
+You should always index columns that you plan on searching on. Creating an index on a field in a table creates another data structure which holds the field value, and pointer to the record it relates to. This index structure is then sorted, allowing binary searches to be performed on it. An index can be defined for a single column or multiple columns of a given table.
+
+This rule also applies to fields where partial string searches will be performed on the start of the field. For instance the phrase "last_name LIKE 'rob%'" will use the index, whereas "WHERE last_name LIKE '%ert%'" will not.
+
+This does not imply that the more indexes you have, the better. While that is true to a point, keep in mind that every index takes up disk space. In a MyISAM database, the index file can quickly reach the size limits of the underlying file system if many fields within the same table are indexed.
+
+2. Avoid Using "SELECT *" in your Queries
+As a general rule, the more data is read from the tables, the slower a query becomes. Considering that some production tables may contains dozens of columns, some of which comprises of huge data types, it would be foolhardy to select all of them. A database server which is separate from the web server will only aggravate this issue, due to the data having to be transferred across the network.
+
+To reiterate, it is a good habit to always specify which columns you need when writing your SELECT statements.
+
+3. Set a password for the "root" user and then rename the user.
+Here's a security tip. Much like with UNIX, the first thing you should do with a clean MySQL install is set a password for the root user:
+
+Even better, once you've set the password, change the name of the "root" user to something else. A hacker on a MySQL server will likely target the root, both for its superuser status and because it is a known user. By changing the name of the root user, you make it all the more difficult for hackers to succeed using a brute-force attack. Use the following series of commands to rename the "root" user:
+
+4. Tune your Queries with EXPLAIN
+The EXPLAIN keyword is undoubtedly the most instructive analytical tool in the MySQL arsenal. Using it can give you valuable insight on the steps that MySQL is taking to execute your query. This can help you spot the bottlenecks and other problems with your query or table structures.
+
+In my Optimizing MySQL Query Retrieval Speed through Table Joins article, I included how to use EXPLAIN to ascertain the efficiency of the table joins in the following query statement:
+
+EXPLAIN produced the following results:
+
+The results of an EXPLAIN query will show you which indexes are being utilized, how the table is being scanned and sorted, and other useful information. At the very least, you can be sure that the lower the numbers appear in the rows column, the faster the query should run.
+
+5. Index and Use Same Column Types for Joins
+If your query contains many joins, you need to make sure that the columns that make up a join are indexed on both tables. This will allow MySQL to better optimize the join operation.
+
+Likewise, the columns that are joined must share the same type. For instance, if you join a DECIMAL column to one of the type INT, MySQL will be unable to use at least one of the indexes. String type columns must also use the same character encoding.
+
+6. LIMIT 1 When Getting a Unique Row
+There are some queries that are meant to only return one row, such as those which fetch a unique record, or that verify whether or not there are any records that satisfy the WHERE clause. In such cases, adding LIMIT 1 to your query can increase performance. This reduces execution time because the database engine will stop scanning for records after it finds the first matching record, instead of going through the whole table or index.
+
+A second popular usage is in subqueries. In the following SELECT statement, we want to retrieve the first s2 field value sorted by the s1 column. We can then match it against the outer query values:
+
+7. Hide MySQL from the Internet
+Most experienced database administrators and security personnel know to never host the database under the Web server's root. For Web-enabled applications, MySQL should be hidden behind a firewall and communication should only be enabled between application servers and your Web servers. Another option is to use MySQL's skip-networking option. When it is enabled, MySQL only listens for local socket connections and ignores all TCP ports.
+
+8. Use the Smallest Data Types Possible
+This would seem to be common sense to me, because of my programming background. When I was attending college, there was still some of the "memory is scarce" philosophy carried over from the days of 256 MB hard drives. Nowadays, no one seems to care one iota about memory or hard drive space. "Memory is cheap!" is the new adage. While it is true in dollar terms, it still takes longer to read in large data types than smaller ones, as the former require more disk sectors to be read into memory.
+
+The moral of the story is to ignore the temptation to immediately jump the largest data type when designing your tables. Consider using an int rather than a bigint. You should also avoid largechar(255) text fields when a varchar or smaller char() will suffice. Using the right data type will fit more records in memory or index key block, meaning fewer reads, ergo faster performance.
+
+9. Create Views to Simplify Commonly-used Table Joins
+As discussed in my Writing Reusable Queries in MySQL article, views help to both simplify complex schemas and to implement security. One way that views contribute to security is to hide auditing fields from developers. They can also be used to filter out unindexed columns, leaving only fields that are fastest to search on. The only caveat to using this technique is that you must be fairly sure that you won't need to access one of the hidden table columns in the future; not an easy thing to do!
+
+10. Take Advantage of Query Caching
+The query cache stores the text of a SELECT statement together with the corresponding result set. If an identical statement is received later, the server retrieves the results from the query cache rather than parsing and executing the statement again. The query cache is shared among sessions, so a result set generated by one client can be sent in response to the same query issued by another client. Most MySQL servers have query caching enabled by default. It's one of the most effective methods of improving performance.
+
+It's a beautiful thing, but query caching isn't without limitations. Take the following statement:
+
+The problem here is that queries, which contain certain non-deterministic functions - that is those which MySQL cannot calculate in advance - like NOW() and RAND() are not cached. Fortunately, there is an easy fix to prevent this from happening. That is to store the function results to a variable:
+
+
+
+http://www.databasejournal.com/features/mysql/article.php/3918631/Top-10-MySQL-Best-Practices.htm
+Optimization
+Mysql
+Shreef Ashraf
+Written by
+Shreef AshrafFollow
+LikeCommentShare on LinkedInShare on FacebookShare on Twitter6 likes0 comments
+    Be the first to comment and start the conversation!
+
+Be the first to comment and start the conversation!
+Why Are You Working So Hard?
+Robbie Bach Robbie Bach
+Speaker, Author and Consultant
+Follow
+Why Are You Working So Hard?
+Oct 12, 201657,775 views2,816 Likes146 CommentsShare on LinkedInShare on FacebookShare on Twitter
+I generally don’t spend a lot of time pondering existential questions, but lately I’ve been struggling with a big one. To put it concisely, “What is it that makes us work?” There are some easy, obvious answers like “to earn money” or “to find fame” but those only get at the superficial part of the question. They don’t begin to explain the amount of time and energy we invest on the job – where most of us will spend the majority of our lives.
+
+
+I worked at Microsoft for over 22 years and was fortunate enough to contribute to the growth of one great business (Microsoft Office) and lead the creation of another (Xbox). I worked long hours, traveled way more than I would like, and missed important family and life events as a result. And while I was certainly well compensated for my work and achieved some notoriety in certain business communities, there was definitely a great deal of tension around my work-life balance. Logically, once I left Microsoft (and the salary and prestige that came with the job), you would think my work pace would have declined.
+
+I am here to report that some 6 years after retiring from Microsoft, I’m still working very hard, traveling more than I’d like, and have to plan my personal life very carefully. I am still motivated to put in the hours and effort required in a variety of different ventures and activities. In a world in which much of my work involves no compensation, I am left asking myself “why do I do it?”
+
+In my book Xbox Revisited: A Game Plan for Corporate and Civic Renewal, I talk at great length about the importance of defining Purpose to create a north star for an organization’s strategy. When it comes to the “why” of work, I believe there is an analog to Purpose which I will call Impact. Beyond the money and status that comes with successful work lies a deep set need to believe we are having an Impact – on our family, in a business, or across society. If we want to understand our work habits and manage our work-life balance, we must understand the need for Impact.
+
+What Is Impact?
+
+There is no simple definition that adequately describes impact. Each of us experiences it in a different way based on our own particular talents and opportunities. For those who are artists, impact is creating something that moves people’s souls. In the science community, impact is changing the way we understand our world and how it works. Business leaders create goods and services that benefit consumers and other businesses. And civic and government leaders impact us by making our communities better.
+
+
+So perhaps the best way to understand Impact is to ask ourselves a simple question: “Have I utilized the best of my talents, time, and treasure to improve the world around me?” And the corollary follow-up question is: “Have I maximized that improvement given the opportunities provided?”
+
+Where Do We Find Impact?
+
+It is relatively easy to fall into the trap that somehow equates impact with fame, notoriety, financial success, or other obvious measures. While those are nice tangible goals, not everyone (or even most people) will be rich or be famous – and even those that achieve some tangible success will tell you that it is not totally fulfilling. Moreover, as we move through early, middle, and late stages of our professional lives, our motivations do shift. So we all must search for impact in many different ways:
+
+
+1. All in a Day’s Work: The truth is that almost all adults are going to a job each day (including some weekends) because that is how they earn a livelihood. We certainly have to find impact in this daily (mostly unglamorous) work. We have to see the small, incremental wins for what they are – actions that we pursued that moved the ball down the field in the right direction. Finding satisfaction in the daily grind is not always easy or obvious, but it is an important secret to longevity and self-fulfillment.
+
+2. Glory in the Crooked Path: At various points, we all have life plans that define what we want to do and where we want to be in five years. Visually, I think of this as the prototypical line that goes up and to the right in a linear way. The challenge, of course, is that life intervenes and takes us on a serendipitous path that wanders all over the graph paper. And there is nothing wrong with that, because during that journey we will find plenty of new ways in which we can make things better. We should all have a plan but then see new Impact opportunities as the adventure unfolds.
+
+3. Don’t Polish the Trophies: We all have egos and recognition is gratifying – so when someone gives you credit for something positive, enjoy the moment. But don’t let that take away from the joy and pleasure of all the other Impact moments you create that others never notice or recognize. The reality is that most of the positive things you do won’t get seen or measured by others – and yet that in no way diminishes their importance or meaning. If all we valued was the trophies in life, we would miss most of the Impact opportunities we have.
+
+4. Leveraging the Second Derivative: While I passed calculus in college, I’m not sure I really understood the entire point of it in the end. But I did learn the importance of second order effects, and impact certainly works that way. In many respects our achievements in one area – such as a well-compensated career or a position that gives us additional influence – enable us to have real impact in another area. “Paying It Forward” is all about taking some form of success and utilizing it to make things better for someone else. If we all did this, the collective Impact would have an exponentially favorable effect on our communities.
+
+5. Life’s Work: By using the word “work” in the title and body of this blog post, I’ve actually laid out a great source of confusion. So often we think about our “work” as the things we do when we earn money for our efforts. But if we limit our Impact to when we “go off to work”, we will have missed much of the point. Our “life’s work” is not circumscribed by what we do “at the office”. Instead, Impact is about the accumulation of things we do on a job, at home, and in our communities. Each of us may add value in different proportions across each of these areas, but our Impact is the collection of our efforts across all of them.
+
+It is worth noting that if we can’t find Impact in what we are doing personally or professional in these areas or in some other way, perhaps that is an indicator that we are actually focused on the wrong “work”.
+
+Why Does Impact Matter?
+
+Don’t be confused – I understand that money and recognition are important both as motivators and as measuring sticks. This is certainly at the heart of a capitalist, achievement oriented economy and culture. We talk about metrics, accountabilities, and KPIs on the job as if they are part of our God-given, genetic building blocks. Ironically, in the non-profit world, they use these terms to “measure impact.”
+
+
+But I also know that sustained, enthusiastic effort must be fueled by other energy sources. I concluded a long time ago that I enjoy work – whether that is a traditional corporate job, volunteering for a non-profit, or doing chores around the house. I love the challenges it creates for me physically and/or intellectually, and I genuinely enjoy “finishing”. And even though I get frustrated upon occasion like everyone else, I’m slowly realizing that the real goal is Impact. And I can find meaning and self-worth in that in both the great and the small of my daily “work”.
