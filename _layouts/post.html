@@ -6,7 +6,7 @@ layout: base
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <div class="col-lg-7 col-lg-offset-2 col-md-9">
 
       <article role="main" class="blog-post">
         {{ content }}
@@ -47,6 +47,14 @@ layout: base
           {% include disqus.html %}
         </div>
       {% endif %}
+    </div>
+    <div class="col-md-3">
+      <h3>Categories</h3>
+      <aside class="list-group">
+      {% for category in site.categories %}
+          <a href="/category/{{ category[0] }}/" class="list-group-item">{{ category[0] | capitalize }}</a>
+      {% endfor %}
+      </aside>
     </div>
   </div>
 </div>

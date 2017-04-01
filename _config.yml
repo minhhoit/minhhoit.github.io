@@ -14,7 +14,7 @@ baseurl: ""
 # Of course don't forget to change the username and projectname to YOUR username and project
 
 # Name of website
-title: Andrew Blog
+title: Andrew's Blog
 
 # Short description of your site
 description: Introduction myself and the future plans.
@@ -23,7 +23,7 @@ description: Introduction myself and the future plans.
 
 # List of links in the navigation bar
 navbar-links:
-  Home: "/"
+  Home: ""
   Tutorials: ""
   Topics:
     - Redmine: ""
@@ -34,6 +34,11 @@ navbar-links:
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
 #avatar: "/img/logo.png"
+
+collections:
+  category:
+    output: true
+
 
 # If you want to have an image logo in the top-left corner instead of the title text,
 # then specify the following parameter
@@ -135,6 +140,12 @@ defaults:
     values:
       layout: "page"
       show-avatar: true
+  -
+    scope:
+      path: ""
+      type: category
+    values:
+      layout: "category"
 
 # Use tags pages (not recommended if you are deploying via GitHub pages, only set to true if deploying locally with ruby)
 link-tags: false

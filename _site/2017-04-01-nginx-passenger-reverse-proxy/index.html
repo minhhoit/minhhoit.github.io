@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Putting Passenger Standalone behind an Nginx or Apache reverse proxy</title>
+
+  <meta name="author" content="Andrew Ho" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Andrew's Blog - Introduction myself and the future plans." href="/feed.xml" />
+
+  
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Putting Passenger Standalone behind an Nginx or Apache reverse proxy" />
+  
+
+   
+  <meta property="og:description" content="In some cases, you may want to put Passenger Standalone behind a reverse proxy. The reverse proxy can for example be Nginx, Apache or HAProxy. The reverse proxy listens on port 80 (or any other port you want) and is responsible for accepting HTTP requests. The reverse proxy then determines...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4100/2017-04-01-nginx-passenger-reverse-proxy/" />
+  <link rel="canonical" href="http://localhost:4100/2017-04-01-nginx-passenger-reverse-proxy/" />
+  
+
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@minhho.it" />
+  <meta name="twitter:creator" content="@minhho.it" />
+
+  
+  <meta name="twitter:title" content="Putting Passenger Standalone behind an Nginx or Apache reverse proxy" />
+  
+
+  
+  <meta name="twitter:description" content="In some cases, you may want to put Passenger Standalone behind a reverse proxy. The reverse proxy can for example be Nginx, Apache or HAProxy. The reverse proxy listens on port 80 (or any other port you want) and is responsible for accepting HTTP requests. The reverse proxy then determines...">
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4100">Andrew's Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Home</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Tutorials</a>
+
+          </li>
+        
+        
+        
+          <li class="navlinks-container">
+            <a class="navlinks-parent" href="javascript:void(0)">Topics</a>
+            <div class="navlinks-children">
+              
+                
+                  
+            
+
+
+
+
+
+<a href="/">Redmine</a>
+
+                
+              
+            </div>
+          </li>
+        
+        
+        
+          <li class="navlinks-container">
+            <a class="navlinks-parent" href="javascript:void(0)">About</a>
+            <div class="navlinks-children">
+              
+                
+                  
+            
+
+
+
+
+
+<a href="/">Support</a>
+
+                
+              
+                
+                  
+            
+
+
+
+
+
+<a href="/">Contact</a>
+
+                
+              
+            </div>
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Putting Passenger Standalone behind an Nginx or Apache reverse proxy</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on April 1, 2017</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-7 col-lg-offset-2 col-md-9">
+
+      <article role="main" class="blog-post">
+        <p>In some cases, you may want to put Passenger Standalone behind a reverse proxy. The reverse proxy can for example be Nginx, Apache or HAProxy. The reverse proxy listens on port 80 (or any other port you want) and is responsible for accepting HTTP requests. The reverse proxy then determines which Passenger Standalone instance should handle the request, and forwards the request to that instance.</p>
+
+<p>There are two reasons why you may want to have this kind of reverse proxy:</p>
+
+<p>You already have an existing Nginx or Apache installation, but you want to use Passenger Standalone instead of using Passenger’s Nginx or Apache integration modes.
+You have multiple Passenger Standalone instances, and you want all of them to be accessible on the same port, just with different host names.</p>
+
+<h2 id="starting-all-applications">starting all applications</h2>
+<hr />
+<p>Passenger Standalone behind a reverse proxy requires three steps. First, you must start all Passenger Standalone instances that you want. Each one must be listening on a different port, because two applications can’t listen on the same port. Suppose that you have two applications, <code class="highlighter-rouge">/webapps/foo</code> and <code class="highlighter-rouge">/webapps/bar</code>. Here’s how you may start them:</p>
+<pre>
+<code>
+# Start foo on port 4000
+
+$ cd /webapps/foo
+$ passenger start --daemonize --address 127.0.0.1 --port 4000
+
+# Start bar on port 4010
+
+$ cd /webapps/bar
+$ passenger start --daemonize --address 127.0.0.1 --port 4010
+</code>
+</pre>
+<p>Notice the fact that we pass <code class="highlighter-rouge">--address 127.0.0.1</code>, which tells Passenger Standalone to only listen for requests that originate from the local machine. This is because the reverse proxy, not Passenger Standalone, is supposed to be responsible for receiving external HTTP requests. In this guide, we are teaching you how to run the reverse proxy on the same machine only, so limiting Passenger Standalone in this manner improves security.</p>
+
+<h2 id="step-2-install-and-configure-nginx">Step 2: install and configure Nginx</h2>
+
+<p>The next step is to install Nginx to do the following:
++ To listen on port 80.
++ To forward requests to either ‘foo’ or ‘bar’, depending on the request’s HTTP host name.</p>
+
+<p>Here is how you can install Nginx:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Debian, Ubuntu</td>
+      <td><code>sudo apt-get install nginx-extras</code></td>
+    </tr>
+    <tr>
+      <td>Red Hat, CentOS, Fedora, ScientificLinux, Amazon Linux</td>
+      <td>Enable <strong>EPEL</strong>, then run as root: <br /> <code>sudo yum install nginx</code></td>
+    </tr>
+    <tr>
+      <td>Mac OS X (Homebrew)</td>
+      <td><code>brew install nginx</code></td>
+    </tr>
+    <tr>
+      <td>Other operating systems</td>
+      <td>Please install Nginx from <a href="http://www.nginx.org/">the Nginx website</a>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Open the Nginx configuration file:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Debian, Ubuntu</td>
+      <td>/etc/nginx/nginx.conf</td>
+    </tr>
+    <tr>
+      <td>Red Hat, CentOS, Fedora, ScientificLinux, Amazon Linux</td>
+      <td>/etc/nginx/nginx.conf</td>
+    </tr>
+    <tr>
+      <td>Mac OS X (Homebrew)</td>
+      <td>/usr/local/etc/nginx/nginx.conf</td>
+    </tr>
+    <tr>
+      <td>Other operating systems</td>
+      <td>It depends on how you installed Nginx, but it’s usually <code class="highlighter-rouge">$PREFIX/conf/nginx.conf</code>, where <code class="highlighter-rouge">$PREFIX</code> is the prefix you installed Nginx to.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Add virtual host entries for your applications foo and bar. While making the virtual host entries, you must determine what host names foo and bar should respond to. Let’s say that foo should respond to <code class="highlighter-rouge">www.foo.com</code> and bar should respond to <code class="highlighter-rouge">www.bar.com</code>. Then the following entries will tell Nginx to listen on port 80, and to handle requests for the domains <code class="highlighter-rouge">www.foo.com</code> and <code class="highlighter-rouge">www.bar.com</code> differently.</p>
+
+<pre>
+http {
+    ...
+
+    # These are some "magic" Nginx configuration options that aid in making
+    # WebSockets work properly with Passenger Standalone. Please learn more
+    # at http://nginx.org/en/docs/http/websocket.html
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        ''      close;
+    }
+
+    server {
+        listen 80;
+        server_name www.foo.com;
+
+        # Tells Nginx to serve static assets from this directory.
+        root /webapps/foo/public;
+
+        location / {
+            # Tells Nginx to forward all requests for www.foo.com
+            # to the Passenger Standalone instance listening on port 4000.
+            proxy_pass http://127.0.0.1:4000;
+
+            # These are "magic" Nginx configuration options that
+            # should be present in order to make the reverse proxying
+            # work properly. Also contains some options that make WebSockets
+            # work properly with Passenger Standalone. Please learn more at
+            # http://nginx.org/en/docs/http/ngx_http_proxy_module.html
+            proxy_http_version 1.1;
+            proxy_set_header Host $http_host;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+            proxy_buffering off;
+        }
+    }
+
+    # We handle bar in a similar manner.
+    server {
+        listen 80;
+        server_name www.bar.com;
+
+        root /webapps/bar/public;
+
+        location / {
+            # bar is listening on port 4010 instead of 4000, we
+            # change the URL here.
+            proxy_pass http://127.0.0.1:4010;
+
+            proxy_http_version 1.1;
+            proxy_set_header Host $http_host;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+            proxy_buffering off;
+        }
+    }
+}
+</pre>
+
+<p>Once you’re done editing the Nginx configuration file, restart Nginx:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Debian, Ubuntu</td>
+      <td><code class="highlighter-rouge">sudo /etc/init.d/nginx restart</code></td>
+    </tr>
+    <tr>
+      <td>Red Hat, CentOS, Fedora, ScientificLinux, Amazon Linux</td>
+      <td><code class="highlighter-rouge">sudo service nginx restart</code></td>
+    </tr>
+    <tr>
+      <td>Mac OS X (Homebrew)</td>
+      <td>1. Run <code class="highlighter-rouge">sudo kill $(cat /usr/local/var/run/nginx.pid)</code> <br /> 2. If you installed the Nginx launchd plist that Homebrew provides (see <code class="highlighter-rouge">brew info nginx</code> to learn more), then you don’t have to do anything, and launchd will automatically restart Nginx. Otherwise, you have to manually start Nginx again: <code class="highlighter-rouge">sudo /usr/local/bin/nginx</code>.</td>
+    </tr>
+    <tr>
+      <td>Other operating systems</td>
+      <td>It depends on how you installed Nginx, but it’s usually as follows: <br />1. Lookup the PID of the Nginx master process using ps aux. <br />2. Run sudo kill <code class="highlighter-rouge">&lt;PID&gt;</code> <br />3. Start Nginx again: <code class="highlighter-rouge">sudo $PREFIX/sbin/nginx</code>, where <code class="highlighter-rouge">$PREFIX</code> is the prefix you installed Nginx to.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="step-3-making-all-apps-start-at-system-boot">Step 3: making all apps start at system boot</h2>
+
+<p>Once you restart the machine, the reverse proxy will no longer be able to serve ‘www.foo.com’ or ‘www.bar.com’ because the Passenger Standalone instances that host them are no longer running. You must therefore configure the system to start Passenger Standalone at system boot.</p>
+
+<p>For example, you can put this in <code class="highlighter-rouge">/etc/rc.local</code> to make the system start foo and bar at system boot:</p>
+
+<pre>
+#!/bin/sh
+# If you installed Passenger from tarball, add its `bin` directory to PATH.
+#export PATH=/path-to-passenger/bin:$PATH
+
+cd /webapps/foo
+passenger start --daemonize --port 4000 --user someusername1
+
+cd /webapps/bar
+passenger start --daemonize --port 4010 --user someusername2
+</pre>
+
+<hr />
+
+<p><strong>Reference</strong>
+<a href="https://www.phusionpassenger.com/library/deploy/standalone/reverse_proxy.html">https://www.phusionpassenger.com/library/deploy/standalone/reverse_proxy.html</a></p>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+            deploy, nginx, ruby, passenger
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Putting+Passenger+Standalone+behind+an+Nginx+or+Apache+reverse+proxy+http://localhost:4100/2017-04-01-nginx-passenger-reverse-proxy/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4100/2017-04-01-nginx-passenger-reverse-proxy/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4100/2017-04-01-nginx-passenger-reverse-proxy/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+
+        </div>
+      
+    </div>
+    <div class="col-md-3">
+      <h3>Categories</h3>
+      <aside class="list-group">
+      
+          <a href="/category/nginx/" class="list-group-item">Nginx</a>
+      
+          <a href="/category/ruby/" class="list-group-item">Ruby</a>
+      
+      </aside>
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          <li>
+            <a href="https://www.facebook.com/freeze.jan" title="Facebook">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Facebook</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="https://github.com/minhhoit" title="GitHub">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">GitHub</span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/minhho.it" title="Twitter">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Twitter</span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:hoangminh.it4u@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Email me</span>
+            </a>
+          </li>
+          
+		  
+		  
+		  
+      
+      
+      
+      
+      
+		  
+        </ul>
+        <p class="copyright text-muted">
+		  Andrew Ho
+		  &nbsp;&bull;&nbsp;
+		  2017
+
+		  
+		  &nbsp;&bull;&nbsp;
+		  <a href="http://localhost:4100">vnnpal.com</a>
+		  
+	    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>
