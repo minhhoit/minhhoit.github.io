@@ -5,8 +5,6 @@ categories: ["drupal 7"]
 tags: [drupal, "drupal 7"]
 ---
 
-## Create custom token Drupal 7
-
 For creating custom token we will use three token api function.
 
 * [hook_token_info](http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_token_info/7)

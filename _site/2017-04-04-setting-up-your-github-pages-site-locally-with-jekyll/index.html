@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Setting up your GitHub Pages site locally with Jekyll</title>
+
+  <meta name="author" content="Andrew Ho" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Andrew's Blog - Introduction myself and the future plans." href="/feed.xml" />
+
+  
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Setting up your GitHub Pages site locally with Jekyll" />
+  
+
+   
+  <meta property="og:description" content="You can set up a local version of your Jekyll GitHub Pages site to test changes to your site locally. We highly recommend installing Jekyll to preview your site and help troubleshoot failed Jekyll builds. In this article: Requirements Step 1: Create a local repository for your Jekyll site Step...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4100/2017-04-04-setting-up-your-github-pages-site-locally-with-jekyll/" />
+  <link rel="canonical" href="http://localhost:4100/2017-04-04-setting-up-your-github-pages-site-locally-with-jekyll/" />
+  
+
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@minhho.it" />
+  <meta name="twitter:creator" content="@minhho.it" />
+
+  
+  <meta name="twitter:title" content="Setting up your GitHub Pages site locally with Jekyll" />
+  
+
+  
+  <meta name="twitter:description" content="You can set up a local version of your Jekyll GitHub Pages site to test changes to your site locally. We highly recommend installing Jekyll to preview your site and help troubleshoot failed Jekyll builds. In this article: Requirements Step 1: Create a local repository for your Jekyll site Step...">
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4100">Andrew's Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Home</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Tutorials</a>
+
+          </li>
+        
+        
+        
+          <li class="navlinks-container">
+            <a class="navlinks-parent" href="javascript:void(0)">Topics</a>
+            <div class="navlinks-children">
+              
+                
+                  
+            
+
+
+
+
+
+<a href="/">Redmine</a>
+
+                
+              
+            </div>
+          </li>
+        
+        
+        
+          <li class="navlinks-container">
+            <a class="navlinks-parent" href="javascript:void(0)">About</a>
+            <div class="navlinks-children">
+              
+                
+                  
+            
+
+
+
+
+
+<a href="/">Support</a>
+
+                
+              
+                
+                  
+            
+
+
+
+
+
+<a href="/">Contact</a>
+
+                
+              
+            </div>
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Setting up your GitHub Pages site locally with Jekyll</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on April 4, 2017</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-7 col-lg-offset-2 col-md-9">
+
+      <article role="main" class="blog-post">
+        <p>You can set up a local version of your Jekyll GitHub Pages site to test changes to your site locally. We highly recommend installing Jekyll to preview your site and help troubleshoot failed Jekyll builds.</p>
+
+<p>In this article:</p>
+
+<ol>
+  <li><a href="#Requirements">Requirements</a></li>
+  <li><a href="#step-1-create-a-local-repository-for-your-jekyll-site">Step 1: Create a local repository for your Jekyll site</a></li>
+  <li><a href="#step-2-install-jekyll-using-bundler">Step 2: Install Jekyll using Bundler</a></li>
+  <li><a href="#step-3-optional-generate-jekyll-site-files">Step 3 (optional): Generate Jekyll site files</a></li>
+  <li><a href="#step-4-build-your-local-jekyll-site">Step 4: Build your local Jekyll site</a></li>
+  <li><a href="#keeping-your-site-up-to-date-with-the-github-pages-gem">Keeping your site up to date with the GitHub Pages gem</a></li>
+  <li><a href="#next-steps-configuring-jekyll">Next steps: Configuring Jekyll</a></li>
+  <li><a href="#further-reading">Further reading</a></li>
+</ol>
+
+<h2 id="requirements">Requirements</h2>
+<hr />
+
+<p>We recommend using Bundler to install and run Jekyll. Bundler manages Ruby gem dependencies, reduces Jekyll build errors, and prevents environment-related bugs. To install Bundler, you must install Ruby.</p>
+
+<ul>
+  <li>Open Terminal.</li>
+  <li>Check whether you have Ruby 2.1.0 or higher installed:</li>
+</ul>
+
+<pre>
+ruby --version
+ruby 2.X.X
+</pre>
+
+<ul>
+  <li>If you don’t have Ruby installed, install Ruby 2.1.0 or higher.</li>
+  <li>Install Bundler:</li>
+</ul>
+
+<pre>
+gem install bundler
+# Installs the Bundler gem
+</pre>
+
+<ul>
+  <li>If you already have a local repository for your Jekyll site, skip to Step 2.</li>
+</ul>
+
+<h2 id="step-1-create-a-local-repository-for-your-jekyll-site">Step 1: Create a local repository for your Jekyll site</h2>
+<hr />
+
+<ul>
+  <li>Open Terminal.</li>
+  <li>On your local computer, initialize a new Git repository for your Jekyll site:</li>
+</ul>
+
+<pre>
+git init JEKYLL-SITE-REPOSITORY-NAME
+Initialized empty Git repository in /Users/octocat/my-site/.git/
+# Creates a new file directory on your local computer, initialized as a Git repository
+</pre>
+
+<ul>
+  <li>Change directories to the new repository you created:</li>
+</ul>
+
+<pre>
+cd JEKYLL-SITE-REPOSITORY-NAME
+# Changes the working directory
+</pre>
+
+<ul>
+  <li>If your new local repository is for a Project pages site, create a new gh-pages branch:</li>
+</ul>
+
+<pre>
+git checkout -b gh-pages
+Switched to a new branch 'gh-pages'
+# Creates a new branch called 'gh-pages', and checks it out
+</pre>
+
+<h2 id="step-2-install-jekyll-using-bundler">Step 2: Install Jekyll using Bundler</h2>
+<hr />
+
+<p>To track your site’s dependencies, Ruby will use the contents of your Gemfile to build your Jekyll site.</p>
+
+<p>Check to see if you have a Gemfile in your local Jekyll site repository:</p>
+
+<pre>
+ls
+Gemfile
+</pre>
+
+<p>If you have a Gemfile, skip to step 4. If you don’t have a Gemfile, skip to step 2.
+If you don’t have a Gemfile, open your favorite text editor, such as Atom, and add these lines to a new file:</p>
+
+<pre>
+source 'https://rubygems.org'
+gem 'github-pages', group: :jekyll_plugins
+</pre>
+
+<p>Name the file Gemfile and save it to the root directory of your local Jekyll site repository. Skip to step 5 to install Jekyll.</p>
+
+<p>If you already have a Gemfile, open your favorite text editor, such as Atom, and add these lines to your Gemfile:</p>
+
+<pre>
+source 'https://rubygems.org'
+gem 'github-pages', group: :jekyll_plugins
+</pre>
+
+<p>Install Jekyll and other dependencies from the GitHub Pages gem:</p>
+
+<pre>
+bundle install
+Fetching gem metadata from https://rubygems.org/............
+Fetching version metadata from https://rubygems.org/...
+Fetching dependency metadata from https://rubygems.org/..
+Resolving dependencies...
+</pre>
+
+<h2 id="step-3-optional-generate-jekyll-site-files">Step 3 (optional): Generate Jekyll site files</h2>
+<hr />
+
+<p>To build your Jekyll site locally, preview your site changes, and troubleshoot build errors, you must have Jekyll site files on your local computer. You may already have Jekyll site files on your local computer if you cloned a Jekyll site repository. If you don’t have a Jekyll site downloaded, you can generate Jekyll site files for a basic Jekyll template site in your local repository.</p>
+
+<p>If you want to use an existing Jekyll site repository on GitHub as the starting template for your Jekyll site, fork and clone the Jekyll site repository on GitHub to your local computer. For more information, see “Fork a repo.”</p>
+
+<p><code class="highlighter-rouge">Note: As of Jekyll 3.2, the default Jekyll site contains a Gemfile that locks Jekyll to the Gem version you build it with. To instead lock it to the version used by GitHub Pages, you'll uncomment the gem "github-pages", group: :jekyll_plugins line in the steps below.</code></p>
+
+<p>If you don’t already have a Jekyll site on your local computer, create a Jekyll template site in a new directory:</p>
+
+<pre>
+jekyll _3.3.0_ new NEW-JEKYLL-SITE-REPOSITORY-NAME
+New jekyll site installed in /Users/octocat/NEW-JEKYLL-SITE-REPOSITORY-NAME.
+</pre>
+
+<p>Navigate into your new site directory:</p>
+
+<pre>
+cd NEW-JEKYLL-SITE-REPOSITORY-NAME
+</pre>
+
+<p>Edit your Gemfile and remove the following line:</p>
+
+<pre>
+"jekyll", "3.3.0"
+</pre>
+
+<p>In the Gemfile, delete the # at the beginning of this line:</p>
+
+<p>gem “github-pages”, group: :jekyll_plugins
+Initialize your site directory as a Git repository.</p>
+
+<pre>
+git init
+Initialized empty Git repository in /Users/octocat/name-of-your-directory
+</pre>
+
+<p>Connect your remote repository on GitHub to your local repository for your GitHub Pages site.</p>
+
+<pre>
+git remote add origin https://github.com/username-or-organization-name/your-remote-repository-name
+</pre>
+
+<p>To edit the Jekyll template site, open your new Jekyll site files in a text editor. Make your changes and save them in the text editor. You can preview these changes locally on your computer without committing your changes using Git by running a Jekyll command to build your site.</p>
+
+<p>Add or stage your changes.</p>
+
+<pre>
+git add .
+</pre>
+
+<p>Commit your changes with a comment.</p>
+
+<pre>
+git commit -m "updated site"
+</pre>
+
+<p>To publish your changes on your GitHub Pages site, push your changes to your remote repository on GitHub.</p>
+
+<pre>
+git push -u origin master
+</pre>
+
+<p>For more information on using this Git workflow, see “Good Resources for Learning Git and GitHub” or see this Git cheat sheet.</p>
+
+<h2 id="step-4-build-your-local-jekyll-site">Step 4: Build your local Jekyll site</h2>
+
+<ul>
+  <li>Navigate into the root directory of your local Jekyll site repository.</li>
+  <li>Run your Jekyll site locally:</li>
+</ul>
+
+<pre>
+bundle exec jekyll serve
+Configuration file: /Users/octocat/my-site/_config.yml
+           Source: /Users/octocat/my-site
+      Destination: /Users/octocat/my-site/_site
+Incremental build: disabled. Enable with --incremental
+     Generating...
+                   done in 0.309 seconds.
+Auto-regeneration: enabled for '/Users/octocat/my-site'
+Configuration file: /Users/octocat/my-site/_config.yml
+   Server address: http://127.0.0.1:4000/
+ Server running... press ctrl-c to stop.
+</pre>
+<ul>
+  <li>Preview your local Jekyll site in your web browser at http://localhost:4000.</li>
+</ul>
+
+<h2 id="keeping-your-site-up-to-date-with-the-github-pages-gem">Keeping your site up to date with the GitHub Pages gem</h2>
+
+<p>Jekyll is an active open source project and is updated frequently. As the GitHub Pages server is updated, the software on your computer may become out of date, resulting in your site appearing different locally from how it looks when published on GitHub.</p>
+
+<p>Open Terminal.
+Run this update command:
+1. If you followed our setup recommendations and installed Bundler, run bundle update github-pages or simply bundle update and all your gems will update to the latest versions.
+2. If you don’t have Bundler installed, run gem update github-pages</p>
+
+<h2 id="next-steps-configuring-jekyll">Next steps: Configuring Jekyll</h2>
+
+<p>To configure your pages site further, see “Configuring Jekyll.” To set up a project pages site, see Jekyll’s official documentation on project pages URLs.</p>
+
+<h2 id="further-reading">Further Reading</h2>
+
+<ul>
+  <li>“Troubleshooting GitHub Pages Builds”</li>
+  <li>“Using Jekyll as a static site generator with GitHub Pages”</li>
+  <li>Jekyll’s official GitHub Pages documentation</li>
+  <li>Jekyll commands</li>
+</ul>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li><a href="https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll/">https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll</a></li>
+</ul>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+            ruby, jekyll
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Setting+up+your+GitHub+Pages+site+locally+with+Jekyll+http://localhost:4100/2017-04-04-setting-up-your-github-pages-site-locally-with-jekyll/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4100/2017-04-04-setting-up-your-github-pages-site-locally-with-jekyll/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4100/2017-04-04-setting-up-your-github-pages-site-locally-with-jekyll/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/2017-04-04-create-custom-token-drupal-7/" data-toggle="tooltip" data-placement="top" title="Create custom token Drupal 7">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+
+        </div>
+      
+    </div>
+    <div class="col-md-3">
+      <h3>Categories</h3>
+      <aside class="list-group">
+      
+          <a href="/category/nginx/" class="list-group-item">Nginx</a>
+      
+          <a href="/category/ruby/" class="list-group-item">Ruby</a>
+      
+          <a href="/category/linux/" class="list-group-item">Linux</a>
+      
+          <a href="/category/ubuntu/" class="list-group-item">Ubuntu</a>
+      
+          <a href="/category/jekyll/" class="list-group-item">Jekyll</a>
+      
+          <a href="/category/drupal-7/" class="list-group-item">Drupal 7</a>
+      
+      </aside>
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          <li>
+            <a href="https://www.facebook.com/freeze.jan" title="Facebook">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Facebook</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="https://github.com/minhhoit" title="GitHub">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">GitHub</span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/minhho.it" title="Twitter">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Twitter</span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:hoangminh.it4u@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Email me</span>
+            </a>
+          </li>
+          
+		  
+		  
+		  
+      
+      
+      
+      
+      
+		  
+        </ul>
+        <p class="copyright text-muted">
+		  Andrew Ho
+		  &nbsp;&bull;&nbsp;
+		  2017
+
+		  
+		  &nbsp;&bull;&nbsp;
+		  <a href="http://localhost:4100">vnnpal.com</a>
+		  
+	    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>

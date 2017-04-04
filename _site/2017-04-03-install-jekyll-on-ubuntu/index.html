@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Install Jekyll on Ubuntu</title>
+
+  <meta name="author" content="Andrew Ho" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Andrew's Blog - Introduction myself and the future plans." href="/feed.xml" />
+
+  
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Install Jekyll on Ubuntu" />
+  
+
+   
+  <meta property="og:description" content="Jekyll is a static site generator with a templating system that can be adapted for many types of websites, including blogs. It can be run on a server, or run locally and the generated files uploaded to a server. It is the default software used by Github Pages. Install Prerequisites...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4100/2017-04-03-install-jekyll-on-ubuntu/" />
+  <link rel="canonical" href="http://localhost:4100/2017-04-03-install-jekyll-on-ubuntu/" />
+  
+
+  
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@minhho.it" />
+  <meta name="twitter:creator" content="@minhho.it" />
+
+  
+  <meta name="twitter:title" content="Install Jekyll on Ubuntu" />
+  
+
+  
+  <meta name="twitter:description" content="Jekyll is a static site generator with a templating system that can be adapted for many types of websites, including blogs. It can be run on a server, or run locally and the generated files uploaded to a server. It is the default software used by Github Pages. Install Prerequisites...">
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4100">Andrew's Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Home</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Tutorials</a>
+
+          </li>
+        
+        
+        
+          <li class="navlinks-container">
+            <a class="navlinks-parent" href="javascript:void(0)">Topics</a>
+            <div class="navlinks-children">
+              
+                
+                  
+            
+
+
+
+
+
+<a href="/">Redmine</a>
+
+                
+              
+            </div>
+          </li>
+        
+        
+        
+          <li class="navlinks-container">
+            <a class="navlinks-parent" href="javascript:void(0)">About</a>
+            <div class="navlinks-children">
+              
+                
+                  
+            
+
+
+
+
+
+<a href="/">Support</a>
+
+                
+              
+                
+                  
+            
+
+
+
+
+
+<a href="/">Contact</a>
+
+                
+              
+            </div>
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Install Jekyll on Ubuntu</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on April 3, 2017</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-7 col-lg-offset-2 col-md-9">
+
+      <article role="main" class="blog-post">
+        <p>Jekyll is a static site generator with a templating system that can be adapted for many types of websites, including blogs. It can be run on a server, or run locally and the generated files uploaded to a server. It is the default software used by Github Pages.</p>
+
+<h2 id="install-prerequisites">Install Prerequisites</h2>
+
+<p>Install ruby, the ruby development libraries, and the make command.</p>
+
+<p><code class="highlighter-rouge">sudo apt-get install ruby ruby-dev make gcc nodejs</code></p>
+
+<h2 id="install-jekyll">Install Jekyll</h2>
+
+<p>Install the Jekyll gem system wide. For speed, we are excluding the extended documentation. To include all documentation, omit the <code class="highlighter-rouge">--no-rdoc --no-ri</code> switches.</p>
+
+<p><code class="highlighter-rouge">sudo gem install jekyll --no-rdoc --no-ri</code></p>
+
+<h2 id="start-jekyll">Start Jekyll</h2>
+
+<p>Check that Jekyll has been successfully installed.</p>
+
+<p><code class="highlighter-rouge">jekyll -V</code></p>
+
+<h2 id="recommended">Recommended</h2>
+
+<p>Additional gems can add features to Jekyll, such the github-pages gem which bundles together several gems supported by Github Pages.</p>
+
+<p><code class="highlighter-rouge">sudo gem install github-pages --no-rdoc --no-ri</code></p>
+
+<h2 id="get-website-content">Get Website Content</h2>
+
+<p>Now that Jekyll is installed, we need content for it to serve. We can either use a current website, or set up a new site from scratch.</p>
+
+<h3 id="create-new-site">Create New Site</h3>
+
+<p>For a new Jekyll site, use the new command to create a directory structure and config files.</p>
+
+<pre>
+jekyll new my-awesome-site
+cd my-awesome-site
+</pre>
+
+<h2 id="start-jekyll-1">Start Jekyll</h2>
+
+<p>Now that the basic config and layout are available, start Jekyll to generate the website HTML and start a local server.</p>
+
+<p><code class="highlighter-rouge">jekyll serve</code></p>
+
+<p>Then visit http://localhost:4000 in a web browser.</p>
+
+<h2 id="extra-options">Extra Options</h2>
+
+<p>Jekyll can watch the directory for changes and regenerate the website when files are modified.</p>
+
+<p><code class="highlighter-rouge">jekyll serve -w</code></p>
+
+<p>The default port 4000 can be changed, for example when running multiple Jekyll instances.</p>
+
+<p><code class="highlighter-rouge">jekyll serve --port 4001</code></p>
+
+<p>Then visit [http://localhost:4001]http://localhost:4001 in a web browser.</p>
+
+<p>The <code class="highlighter-rouge">_config.yml</code> can also be specified. This is useful if you need different configs for a public site or when running locally. For example, when running vnnpal.com locally use:</p>
+
+<p><code class="highlighter-rouge">jekyll serve --config _config-local.yml</code></p>
+
+<p>The website can also be generated without starting a local server. The files are placed into the _site directory and can be uploaded to a web server.</p>
+
+<p><code class="highlighter-rouge">jekyll build</code></p>
+
+<h2 id="updating-jekyll">Updating Jekyll</h2>
+
+<p>ekyll can be updated similar to installation, by using the gem update command.</p>
+
+<p><code class="highlighter-rouge">sudo gem update jekyll --no-rdoc --no-ri</code></p>
+
+<p>The same command can be used to update additional gems.</p>
+
+<p><code class="highlighter-rouge">sudo gem update github-pages --no-rdoc --no-ri</code></p>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li><a href="http://stackoverflow.com/a/8113213/2043808">http://stackoverflow.com/a/8113213/2043808</a></li>
+  <li><a href="https://github.com/jekyll/jekyll/pull/2362">https://github.com/jekyll/jekyll/pull/2362</a></li>
+  <li><a href="http://ubuntuforums.org/showthread.php?t=1464768&amp;p=9188769#post9188769">http://ubuntuforums.org/showthread.php?t=1464768&amp;p=9188769#post9188769
+</a></li>
+  <li><a href="http://jekyllrb.com/docs/home/">http://jekyllrb.com/docs/home/
+</a></li>
+</ul>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+            ubuntu, ruby, jekyll
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Install+Jekyll+on+Ubuntu+http://localhost:4100/2017-04-03-install-jekyll-on-ubuntu/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4100/2017-04-03-install-jekyll-on-ubuntu/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4100/2017-04-03-install-jekyll-on-ubuntu/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/2017-04-01-nginx-passenger-reverse-proxy/" data-toggle="tooltip" data-placement="top" title="Putting Passenger Standalone behind an Nginx or Apache reverse proxy">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/2017-04-04-create-custom-token-drupal-7/" data-toggle="tooltip" data-placement="top" title="Create custom token Drupal 7">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+
+        </div>
+      
+    </div>
+    <div class="col-md-3">
+      <h3>Categories</h3>
+      <aside class="list-group">
+      
+          <a href="/category/nginx/" class="list-group-item">Nginx</a>
+      
+          <a href="/category/ruby/" class="list-group-item">Ruby</a>
+      
+          <a href="/category/linux/" class="list-group-item">Linux</a>
+      
+          <a href="/category/ubuntu/" class="list-group-item">Ubuntu</a>
+      
+          <a href="/category/jekyll/" class="list-group-item">Jekyll</a>
+      
+          <a href="/category/drupal-7/" class="list-group-item">Drupal 7</a>
+      
+      </aside>
+    </div>
+  </div>
+</div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          <li>
+            <a href="https://www.facebook.com/freeze.jan" title="Facebook">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Facebook</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="https://github.com/minhhoit" title="GitHub">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">GitHub</span>
+            </a>
+          </li>
+          
+		  
+          <li>
+            <a href="https://twitter.com/minhho.it" title="Twitter">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Twitter</span>
+            </a>
+          </li>
+          
+	  
+      
+		  
+          <li>
+            <a href="mailto:hoangminh.it4u@gmail.com" title="Email me">
+              <span class="fa-stack fa-lg" aria-hidden="true">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+              <span class="sr-only">Email me</span>
+            </a>
+          </li>
+          
+		  
+		  
+		  
+      
+      
+      
+      
+      
+		  
+        </ul>
+        <p class="copyright text-muted">
+		  Andrew Ho
+		  &nbsp;&bull;&nbsp;
+		  2017
+
+		  
+		  &nbsp;&bull;&nbsp;
+		  <a href="http://localhost:4100">vnnpal.com</a>
+		  
+	    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>

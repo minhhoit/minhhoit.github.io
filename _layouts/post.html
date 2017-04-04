@@ -52,7 +52,7 @@ layout: base
       <h3>Categories</h3>
       <aside class="list-group">
       {% for category in site.categories %}
-          <a href="/category/{{ category[0] }}/" class="list-group-item">{{ category[0] | capitalize }}</a>
+          <a href="/category/{{ category[0] | replace: ' ', '-' }}/" class="list-group-item">{{ category[0] | capitalize }}</a>
       {% endfor %}
       </aside>
     </div>
