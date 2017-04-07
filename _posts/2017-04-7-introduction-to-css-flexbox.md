@@ -22,3 +22,15 @@ Thankfully, it doesn't have to be like that anymore. With Flexbox, we can solve 
 * `justify-content: flex-start | flex-end | center | space-between | space-around`
 
 	We can use `justify-content` to *distribute* our flex items along the main axis. By default, it's set to `flex-start`. Be aware that `flex-direction` directly affects `justify-content`. `justify-content: flex-start` here means pack all flex items to start of the main axis which is why we see all flex items on the left by default. `flex-end` packs everything to the right. `center`, well, centers the items but interesting ones are `space-between` and `space-around`. `space-between` distributes the remaining space evenly between the items, `space-around` does the same thing, only this time, the first and  last items don't have any space towards the border of the container.
+
+* `align-items: flex-start | flex-end | center | space-between | space-around`
+
+	`align-items` is basically the same as `justify-content` only for the _cross axis_. If the main axis is horizontal, the cross axis is verfical (top-to-bottom), if the main axis is vertical, the cross axis is horizontal (left-to-right). `align-items: flex-start | flex-end | center` are self-explanatory and  `baseline` is useful if you want your items text content to be aligned.
+
+* `flex-wrap: nowrap | wrap | wrap-reverse`
+
+	Let's assume all our flex items have explicit widths set to `30%`. If we have more than 3 items in the container, normally we'd think that the 4th item wouldn't fit the container and should either overlow or break into the next row. However, because `flex-wrap` is by default set to `nowrap` that doesn't happen. If we use `flex-wrap: wrap` the 4th item break into a second row.
+
+## References
+
++ [http://engineering.blogfoster.com/flexbox-introduction/](http://engineering.blogfoster.com/flexbox-introduction/)
