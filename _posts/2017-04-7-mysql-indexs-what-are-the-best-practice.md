@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Mysql Indexes, what are the best practice?
-categories: [mysql, perfomance]
+categories: [mysql, performance]
 tags: [mysql, perfomance]
 ---
 
