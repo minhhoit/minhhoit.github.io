@@ -7,7 +7,7 @@ tags: [jquery, javascript]
 
 This is a collection of Javascript wizardry that can shave of your code.
 
-## Arguments**
+## Arguments
 ---
 
 ## Use one-letter positional arguments, in alphabetical order
@@ -482,36 +482,39 @@ Warning: This doesn't work when the item array[1] is falsy! So only use it when 
 
 ### Use shortcuts
 
-\d is short for [0-9] and \w is short for [A-Za-z0-9_]. \s matches whitespace. Upper case shortcuts are inverted, e.g. \D matches non-digits. You can use these shortcuts inside character classes, e.g. [\dA-F] matches hex characters.
+`\d` is short for `[0-9]` and `\w` is short for `[A-Za-z0-9_]`. `\s` matches whitespace. Upper case shortcuts are inverted, e.g. `\D` matches non-digits. You can use these shortcuts inside character classes, e.g. `[\dA-F]` matches hex characters.
 
-\b does not match a character but a word boundary where a word and a non-word character met (or vice versa). \B matches everywhere except at word boundaries. Some other shortcuts do not work, e.g. \Q...\E. For a full list check the ECMA column in the Regular Expression Flavor Comparison.
+`\b` does not match a character but a word boundary where a word and a non-word character met (or vice versa). \B matches everywhere except at word boundaries. Some other shortcuts do not work, e.g. \Q...\E. For a full list check the ECMA column in the Regular Expression Flavor Comparison.
 
-/a|b/ is the same as /(a|b)/.
+`/a|b/` is the same as `/(a|b)/`.
 
-Sometimes it's shorter to use <.*?> (ungreedy matching) instead of <[^>]*> to match (for example) an HTML tag. But this may also change the runtime and behavior of the regular expression in rare cases.
+Sometimes it's shorter to use `<.*?>` (ungreedy matching) instead of `<[^>]*>` to match (for example) an HTML tag. But this may also change the runtime and behavior of the regular expression in rare cases.
 
-In the replacement string, $& refers to the entire match and $` and $' refer to everything before and after the match, so /(x)/,'$1' can be replaced with /x/,'$&'.
+In the replacement string, $& refers to the entire match and `$`` and `$'` refer to everything before and after the match, so `/(x)/,'$1'` can be replaced with `/x/,'$&'`.
 
 ### Denormalize to shorten
 
-While /\d{2}/ looks smarter, /\d\d/ is shorter.
+While `/\d{2}/` looks smarter, `/\d\d/` is shorter.
 
 ### Don't escape
 
-In many cases almost no escaping (with \) is needed even if you are using characters that have a meaning in regular expressions. For example, [[\]-] is a character class with the three characters [, ] (this needs to be escaped) and - (no need to escape this if it's the last character in the class).
+In many cases almost no escaping (with `\`) is needed even if you are using characters that have a meaning in regular expressions. For example, `[[\]-]` is a character class with the three characters `[, ]` (this needs to be escaped) and `-` (no need to escape this if it's the last character in the class).
 
 ### eval() for a regexp literal can be shorter than RegExp()
 
-Prefer /\d/g over new RegExp('\\d','g') if possible. If you need to build a regular expression at runtime, consider using eval().
+Prefer `/\d/g` over `new RegExp('\\d','g')` if possible. If you need to build a regular expression at runtime, consider using `eval()`.
 
+<pre>
 // we escape the first curly bracket so if `p` is a number it won't be
 // interpreted as an invalid repetition operator.
 r=new RegExp("\\\\{"+p+"}","g") // before
 r=eval("/\\\\{"+p+"}/g")    // after
+</pre>
 
 ### eval() around String.replace() instead of callback
 
 If a callback is used to achieve a certain effect on the output, one can use replace to build the expression that achieves the same effect and evaluate it (the more complicated the matches are, the less this will help):
+
 <pre>
 x.replace(/./,function(c){m=m+c.charCodeAt(0)&255})  // before
 eval(x.replace(/./,'m=m+"$&".charCodeAt(0)&255;'))   // after
@@ -529,6 +532,7 @@ true and false can be created by combining the ! operator with numbers.
 </pre>
 
 Boolean coercion can be useful, too. If coerced to Number (e.g. by prefixing a +), true will coerce to 1, false to 0. So a program that will test one condition to output 2 and another one to output 1 and 0 if none is met, can be reduced:
+
 <pre>
 x>7?2:x>4?1:0 // before
 +(x>7)+(x>4)  // after
@@ -673,4 +677,4 @@ a=[x=this].slice.call(arguments,1);  // after
 
 ## References
 
-+ [140bytes](https://github.com/jed/140bytes/wiki/Byte-saving-techniques
++ [140bytes](https://github.com/jed/140bytes/wiki/Byte-saving-techniques)
