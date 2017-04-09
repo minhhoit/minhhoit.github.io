@@ -17,7 +17,7 @@ baseurl: ""
 title: Andrew's Blog
 
 # Short description of your site
-description: Introduction myself and the future plans.
+description: Introduction myself and take notes some technical.
 
 # --- Navigation bar options --- #
 
@@ -215,6 +215,3 @@ prose:
 
 gems:
   - jekyll-paginate
-
-# Beautiful Jekyll / Dean Attali
-# 2fc73a3a967e97599c9763d05e564189
