@@ -10,16 +10,16 @@ This is a collection of Javascript wizardry that can shave of your code.
 ## Arguments
 ---
 
-## Use one-letter positional arguments, in alphabetical order
+### Use one-letter positional arguments, in alphabetical order
 
 Since arguments will need to be as short as posible, and will likely be reused with their lifetime, it's best to treat theme as positionals instead of trying to give theme meaning through their name. While using one-leter names mariginally aids readability for a single function, keeping a consitent approach helps readability across all functions.
 
-`
+<pre>
 function(t,d,v,i,f){...} //before
 function(a,b,c,d,e){...} //after
-`
+</pre>
 
-## Test aruments presence instead of length
+### Test aruments presence instead of length
 
 Use `in` to check whether a given arument was passed
 
@@ -41,7 +41,7 @@ a+=b<<1;x(a,1); // before
 x(a+=b<<1,1);   // after
 </pre>
 
-## Reuse parenthesis of the function call
+### Reuse parenthesis of the function call
 
 There are some functions which take no argument, and obviously you can reuse the parentheses when calling them. See @snowlord's RPN function.
 <pre>
@@ -51,7 +51,7 @@ There are some functions which take no argument, and obviously you can reuse the
 
 If you're not sure if a function really takes no arguments, see if its .length is 0.
 
-## `setInterval` and `setTimeout` hacks
+### `setInterval` and `setTimeout` hacks
 
 Use strings instead of functions in setInterval and setTimeout.
 <pre>
@@ -132,6 +132,7 @@ If you can perform all the logic you need within the conditional part of a loop,
 ### Use for over while
 
 `for` and `while` require the same number of bytes, but for gives you more control and assignment opportunity.
+
 <pre>
 while(i--){...} // before
 for(;i--;){...} // after
@@ -145,11 +146,14 @@ FYI, the second argument to a for-loop can be omitted, too - it will only stop t
 ### Use index presence to iterate arrays of truthy items
 
 When iterating over an array of objects that you know are truthy, short circuit on object presence to save bytes.
+
 <pre>
 for(a=[1,2,3,4,5],l=a.length,i=0;i<l;i++){b=a[i];...}
 for(a=[1,2,3,4,5],i=0;b=a[i++];){...}
 </pre>
+
 ### Use for..in with assignment to get the keys of an object
+
 <pre>
 a=[];i=0;for(b in window)a[i++]=b // before
 a=[];i=0;for(a[i++]in window)     // after
@@ -161,12 +165,14 @@ Coercion Hint: you can coerce the counter from an array: `i=a=[];for(a[i++]in wi
 ### Use reverse loops where possible
 
 If an array can be iterated reversely, it may save some bytes:
+
 <pre>
 for(a=0;a<x.length;a++)...     // before
 for(a=x.length;a--;)...        // after
 </pre>
 
 Use both for body and counting expression for multiple operations
+
 <pre>
 for(i=3;i--;foo(),bar());   // before
 for(i=3;i--;)foo(),bar();   // before
@@ -175,6 +181,7 @@ for..in will not iterate over false - use this to trigger iteration
 </pre>
 
 If for..in encounters anything but an object (or string in any browser but ye olde IE), e.g. false or 0, it will silently continue without iteration.
+
 <pre>
 if(c)for(a in b)x(b[a]); // before
 for(a in c&&b)x(b[a]);   // after
@@ -189,6 +196,7 @@ This Mozilla page is an excellent resource to get started.
 ### Understand bitwise operator hacks
 
 ### Use `~` with indexOf to test presence
+
 <pre>
 hasAnF="This sentence has an f.".indexOf("f")>=0 // before
 hasAnF=~"This sentence has an f.".indexOf("f")   // after
@@ -201,13 +209,14 @@ with(document){open();write("hello");close()}
 with(document)open(),write("hello"),close()
 </pre>
 
-### Use []._ instead of undefined
+### Use `[]._` instead of undefined
 
 `""._, 1.._` and `0[0]` also work, but are slower. void 0 is faster than undefined but longer than the alternatives.
 
 ### Remove unnecessary space after an operator
 
 Whitespace isn't always needed after an operator and may sometimes be omitted:
+
 <pre>
 typeof [] // before
 typeof[]  // after
@@ -215,9 +224,11 @@ typeof[]  // after
 
 ## Numbers
 ---
+
 ###Use `~~` and `0|` instead of `Math.floor` for positive numbers
 
 Both of these operator combos will floor numbers (note that since ~ has lower precedence than |, they are not identical).
+
 <pre>
 rand10=Math.floor(Math.random()*10) // before
 rand10=0|Math.random()*10           // after
@@ -238,6 +249,7 @@ a+.5|0        // after
 </pre>
 
 Also, for negative number just change `+.5|0 to -.5|0`
+
 <pre>
 Math.round(-a) // before
 -a-.5|0        // after
@@ -245,7 +257,8 @@ Math.round(-a) // before
 
 ### Use AeB format for large denary numbers
 
-This is equivalent to A*Math.pow(10,B).
+This is equivalent to `A*Math.pow(10,B)`.
+
 <pre>
 million=1000000 // before
 million=1e6     // after
@@ -290,6 +303,7 @@ a==1||console.log("not one") // before
 ### Use `~` to coerce any non-number to -1,
 
 Used together with the unary -, this is a great way to increment numerical variables not yet initialized. This is used on @jed's JSONP implementation.
+
 <pre>
 i=i||0;i++ // before
 i=-~i      // after
@@ -315,7 +329,8 @@ if(a^123) // after
 
 ### Use current date to generate random integers
 
-As seen in aemkei's Tetris game.
+As seen in aemkei\'s Tetris game.
+
 <pre>
 i=0|Math.random()*100 // before
 i=new Date%100 // after
@@ -337,6 +352,7 @@ Use `s.split('')` to create a character array from a string. Unfortunately you c
 ### Split using 0
 
 Save two bytes by using a number as a delimiter in a string to be split, as seen in @jed's timeAgo function.
+
 <pre>
 "alpha,bravo,charlie".split(",") // before
 "alpha0bravo0charlie".split(0)   // after
@@ -345,6 +361,7 @@ Save two bytes by using a number as a delimiter in a string to be split, as seen
 ### Use the little-known .link method
 
 Strings have a built-in .link method that creates an HTML link. This is used in @jed's linkify function.
+
 <pre>
 html="<a href='"+url+"'>"+text+"</a>" // before
 html=text.link(url)                   // after
