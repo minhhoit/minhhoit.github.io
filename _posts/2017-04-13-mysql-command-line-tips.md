@@ -15,7 +15,7 @@ If you are new to the command line, you're going to want to know a few things to
 
 Create a database with the following:
 
-`mysql create <dbname> character set utf8 collate utf8_general_ci;`
+`mysql> create <dbname> character set utf8 collate utf8_general_ci;`
 
 * Replace `<dbname>` with the name of your database
 
@@ -25,7 +25,7 @@ Create a database with the following:
 
 ### Switch a database
 
-`mysql> use <database name>;
+`mysql> use <database name>;`
 
 ### See all the tables in the database
 
