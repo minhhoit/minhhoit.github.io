@@ -26,11 +26,9 @@ services:
 3. `src/TwigExtension/RemoveNumbers.php` it would contain following in that.
 
 <pre>
-namespace Drupal\hello_world\TwigExtension;
- 
+namespace Drupal\hello_world\TwigExtension; 
  
 class RemoveNumbers extends \Twig_Extension {    
- 
   /**
    * Generates a list of all Twig filters that this extension defines.
    */
@@ -53,7 +51,6 @@ class RemoveNumbers extends \Twig_Extension {
   public static function removeNumbers($string) {
     return preg_replace('#[0-9]*#', '', $string);
   }
- 
 }
 </pre>
 
@@ -62,3 +59,6 @@ Enable `hello_world` module and clear the cache, then you could use the `removen
 `{{ twig-value-with-numbers | removenum }}`
 
 It would remove the all numbers from the string, enjoy with your custom filters!
+
+## References
+1. [http://leopathu.com/content/create-custom-twig-filter-drupal-8](http://leopathu.com/content/create-custom-twig-filter-drupal-8)
