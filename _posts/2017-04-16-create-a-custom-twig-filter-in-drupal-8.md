@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Create a custom Twig filter in Drupal 8
+comments: true
 categories: [drupal 8]
 tags: [drupal 8]
 ---
