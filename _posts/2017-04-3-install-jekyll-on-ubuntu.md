@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Install Jekyll on Ubuntu
+comments: true
 categories: [linux, ubuntu, ruby, jekyll]
 tags: [ubuntu, ruby, jekyll]
 ---

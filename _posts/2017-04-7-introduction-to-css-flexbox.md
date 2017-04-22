@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Introduction to CSS Flexbox
+comments: true
 categories: [css]
 tags: [css, flexbox]
 ---

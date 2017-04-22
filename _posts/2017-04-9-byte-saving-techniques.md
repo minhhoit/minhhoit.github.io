@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Byte saving techniques
+comments: true
 categories: [jquery, javascript, performance]
 tags: [jquery, javascript]
 ---

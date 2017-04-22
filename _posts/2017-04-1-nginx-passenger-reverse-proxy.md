@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Putting Passenger Standalone behind an Nginx or Apache reverse proxy
+comments: true
 categories:
     - "nginx"
     - "ruby"

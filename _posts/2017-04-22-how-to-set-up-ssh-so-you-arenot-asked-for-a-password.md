@@ -1,6 +1,7 @@
 ---
 layout: post
 title: How to set up ssh so you are not asked for a password
+comments: true
 categories: [linux]
 tags: [linux]
 ---

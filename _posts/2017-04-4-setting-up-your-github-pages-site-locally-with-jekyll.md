@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Setting up your GitHub Pages site locally with Jekyll
+comments: true
 categories: [ruby, jekyll]
 tags: [ruby, jekyll]
 ---

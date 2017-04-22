@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Create custom token Drupal 7
+comments: true
 categories: ["drupal 7"]
 tags: [drupal, "drupal 7"]
 ---

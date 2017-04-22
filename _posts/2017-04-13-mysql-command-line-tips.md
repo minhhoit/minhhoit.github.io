@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Mysql Command Line Tips
+comments: true
 categories: [mysql, linux]
 tags: [mysql, linux]
 ---
