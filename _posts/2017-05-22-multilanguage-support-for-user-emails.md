@@ -22,6 +22,6 @@ function example_variable_info($options)
 }
 </pre>
 
-Now i can see theme in others tab at admin/config/regional/i18n/variable and I enabled to check box there.
+Now i can see theme in others tab at <code>admin/config/regional/i18n/variable</code> and I enabled to check box there.
 
-Then i can translate my email template at admin/config/system/variable and **user emails**
+Then i can translate my email template at <code>admin/config/system/variable</code> and **user emails**
