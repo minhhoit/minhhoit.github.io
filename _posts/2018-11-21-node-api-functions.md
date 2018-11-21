@@ -3,7 +3,7 @@ layout: post
 title: Node API Hooks
 comments: true
 categories: ["drupal 7"]
-tags: ["drupal 7", "php"]
+tags: ["drupal", "drupal 7"]
 ---
 
 ### Node API Function
@@ -30,6 +30,7 @@ Here is a list of the node and entity hooks that are invoked, field operations, 
 - hook_entity_insert() (all)
 - hook_node_access_records() (all)
 - hook_node_access_records_alter() (all)
+
 #### Updating an existing node (calling node_save() on an existing node):
 - field_attach_presave()
 - hook_node_presave() (all)
@@ -41,12 +42,14 @@ Here is a list of the node and entity hooks that are invoked, field operations, 
 - hook_entity_update() (all)
 - hook_node_access_records() (all)
 - hook_node_access_records_alter() (all)
+
 #### Loading a node (calling node_load(), node_load_multiple() or entity_load() with $entity_type of 'node'):
 - Node and revision information is read from database.
 - hook_load() (node-type-specific)
 - field_attach_load_revision() and field_attach_load()
 - hook_entity_load() (all)
 - hook_node_load() (all)
+
 #### Viewing a single node (calling node_view() - note that the input to node_view() is a loaded node, so the Loading steps above are already done):
 - hook_view() (node-type-specific)
 - field_attach_prepare_view()
@@ -56,6 +59,7 @@ Here is a list of the node and entity hooks that are invoked, field operations, 
 - hook_entity_view() (all)
 - hook_node_view_alter() (all)
 - hook_entity_view_alter() (all)
+
 #### Viewing multiple nodes (calling node_view_multiple() - note that the input to node_view_multiple() is a set of loaded nodes, so the Loading steps above are already done):
 - field_attach_prepare_view()
 - hook_entity_prepare_view() (all)
@@ -65,6 +69,7 @@ Here is a list of the node and entity hooks that are invoked, field operations, 
 - hook_entity_view() (all)
 - hook_node_view_alter() (all)
 - hook_entity_view_alter() (all)
+
 #### Deleting a node (calling node_delete() or node_delete_multiple()):
 - Node is loaded (see Loading section above)
 - hook_delete() (node-type-specific)
@@ -72,20 +77,24 @@ Here is a list of the node and entity hooks that are invoked, field operations, 
 - hook_entity_delete() (all)
 - field_attach_delete()
 - Node and revision information are deleted from database
+
 #### Deleting a node revision (calling node_revision_delete()):
 - Node is loaded (see Loading section above)
 - Revision information is deleted from database
 - hook_node_revision_delete() (all)
 - field_attach_delete_revision()
+
 #### Preparing a node for editing (calling node_form() - note that if it is an existing node, it will already be loaded; see the Loading section above):
 - hook_prepare() (node-type-specific)
 - hook_node_prepare() (all)
 - hook_form() (node-type-specific)
 - field_attach_form()
+
 #### Validating a node during editing form submit (calling node_form_validate()):
 - hook_validate() (node-type-specific)
 - hook_node_validate() (all)
 - field_attach_form_validate()
+
 #### Searching (calling node_search_execute()):
 - hook_ranking() (all)
 - Query is executed to find matching nodes
@@ -93,6 +102,7 @@ Here is a list of the node and entity hooks that are invoked, field operations, 
 - Resulting node is prepared for viewing (see Viewing a single node above)
 - comment_node_update_index() is called.
 - hook_node_search_result() (all)
+
 #### Search indexing (calling node_update_index()):
 - Node is loaded (see Loading section above)
 - Node is prepared for viewing (see Viewing a single node above)
