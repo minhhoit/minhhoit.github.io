@@ -62,8 +62,8 @@ The function (F) keys on the top of your keyboard are also shortcuts that mostly
 | /d | Creates a directory symbolic link. By default, mklink creates a file symbolic link. |
 | /h | Creates a hard link instead of a symbolic link. |
 | /j | Creates a Directory Junction. |
-| <Link> | Specifies the name of the symbolic link that is being created. |
-| <Target> | Specifies the path (relative or absolute) that the new symbolic link refers to. |
+| Link | Specifies the name of the symbolic link that is being created. |
+| Target | Specifies the path (relative or absolute) that the new symbolic link refers to. |
 | /? | Displays help at the command prompt. |
 
 #### Examples
