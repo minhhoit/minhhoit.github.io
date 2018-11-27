@@ -52,7 +52,7 @@ The function (F) keys on the top of your keyboard are also shortcuts that mostly
 
 <pre>
 	
-	mklink [[/d] | [/h] | [/j]] `Link` `Target`
+	mklink [[/d] | [/h] | [/j]] [Link] [Target]
 
 </pre>
 
