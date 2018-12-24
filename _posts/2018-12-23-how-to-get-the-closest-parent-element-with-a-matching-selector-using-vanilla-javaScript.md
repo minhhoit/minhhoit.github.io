@@ -11,7 +11,7 @@ One thing I need to do a lot in my plugins is find a parent element with a parti
 For example, when someone clicks on a link in an accordion, I need to get the parent container for all of the other content sections. I don’t always know exactly what the markup structure will look like, so I can’t just use .parentNode to get it.
 
 <pre>
-	<div class="accordion">
+	`<div class="accordion">
 		<div>
 			<a class="accordion-toggle" href="#content-1">Content 1</a>
 			<div id="content-1">Some content.</div>
@@ -24,7 +24,7 @@ For example, when someone clicks on a link in an accordion, I need to get the pa
 			<a class="accordion-toggle" href="#content-3">Content 3</a>
 			<div id="content-3">Even more content.</div>
 		</div>
-	</div>
+	</div>`
 </pre>
 
 In this example, when someone clicks an .accordion-toggle link, I want to get the .accordion element, but I don’t neccessarily know how many nested div’s will be in the markup.
@@ -62,12 +62,12 @@ Finally, the last part (after the second semicolon) is where we tell the loop wh
 Inside our loop, we want to check and see if the current element matches our selector. For a class we might use classList. For an ID we’d use elem.id === 'our-id'. And so on. To make things easy, though, let’s use the .matches() method, which checks any valid CSS selector.
 
 <pre>
-	var getClosest = function (elem, selector) {
-		for ( ; elem && elem !== document; elem = elem.parentNode ) {
-			if ( elem.matches( selector ) ) return elem;
-		}
-		return null;
-	};
+var getClosest = function (elem, selector) {
+	for ( ; elem && elem !== document; elem = elem.parentNode ) {
+		if ( elem.matches( selector ) ) return elem;
+	}
+	return null;
+};
 </pre>
 
 If there’s a matching element, our helper function will return it. If it makes it through the whole loop without a match, it returns null.
@@ -77,31 +77,31 @@ If there’s a matching element, our helper function will return it. If it makes
 There’s one last thing we need to do, though. Many browsers implemented .matches() with proprietary prefixes. Others didn’t implement it but support querySelectorAll. In both cases, a lightweight polyfill bolts in .matches() support.
 
 <pre>
-	var getClosest = function (elem, selector) {
+var getClosest = function (elem, selector) {
 
-		// Element.matches() polyfill
-		if (!Element.prototype.matches) {
-		    Element.prototype.matches =
-		        Element.prototype.matchesSelector ||
-		        Element.prototype.mozMatchesSelector ||
-		        Element.prototype.msMatchesSelector ||
-		        Element.prototype.oMatchesSelector ||
-		        Element.prototype.webkitMatchesSelector ||
-		        function(s) {
-		            var matches = (this.document || this.ownerDocument).querySelectorAll(s),
-		                i = matches.length;
-		            while (--i >= 0 && matches.item(i) !== this) {}
-		            return i > -1;
-		        };
-		}
+	// Element.matches() polyfill
+	if (!Element.prototype.matches) {
+	    Element.prototype.matches =
+	        Element.prototype.matchesSelector ||
+	        Element.prototype.mozMatchesSelector ||
+	        Element.prototype.msMatchesSelector ||
+	        Element.prototype.oMatchesSelector ||
+	        Element.prototype.webkitMatchesSelector ||
+	        function(s) {
+	            var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+	                i = matches.length;
+	            while (--i >= 0 && matches.item(i) !== this) {}
+	            return i > -1;
+	        };
+	}
 
-		// Get the closest matching element
-		for ( ; elem && elem !== document; elem = elem.parentNode ) {
-			if ( elem.matches( selector ) ) return elem;
-		}
-		return null;
+	// Get the closest matching element
+	for ( ; elem && elem !== document; elem = elem.parentNode ) {
+		if ( elem.matches( selector ) ) return elem;
+	}
+	return null;
 
-	};
+};
 </pre>
 
 This gives you browser support back to at least IE9.
@@ -111,17 +111,17 @@ This gives you browser support back to at least IE9.
 Now you can do something like this:
 
 <pre>
-	document.addEventListener('click', function (event) {
+document.addEventListener('click', function (event) {
 
-		// If the clicked item is an `.accordion-toggle` get the parent `.accordion`
-		if ( event.target.classList.contains('accordion-toggle') ) {
+	// If the clicked item is an `.accordion-toggle` get the parent `.accordion`
+	if ( event.target.classList.contains('accordion-toggle') ) {
 
-			// Get the parent with the `.accordion` class
-			var parent = getClosest(event.target, '.accordion');
+		// Get the parent with the `.accordion` class
+		var parent = getClosest(event.target, '.accordion');
 
-		}
+	}
 
-	}, false);
+}, false);
 </pre>
 
 Now that you know how this works, you could modify it to things like:
