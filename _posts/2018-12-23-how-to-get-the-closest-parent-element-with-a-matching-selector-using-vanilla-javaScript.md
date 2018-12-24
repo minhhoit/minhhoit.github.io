@@ -10,25 +10,6 @@ One thing I need to do a lot in my plugins is find a parent element with a parti
 
 For example, when someone clicks on a link in an accordion, I need to get the parent container for all of the other content sections. I don’t always know exactly what the markup structure will look like, so I can’t just use .parentNode to get it.
 
-<pre>
-`
-<div class="accordion">
-	<div>
-		<a class="accordion-toggle" href="#content-1">Content 1</a>
-		<div id="content-1">Some content.</div>
-	</div>
-	<div>
-		<a class="accordion-toggle" href="#content-2">Content 2</a>
-		<div id="content-2">More content.</div>
-	</div>
-	<div>
-		<a class="accordion-toggle" href="#content-3">Content 3</a>
-		<div id="content-3">Even more content.</div>
-	</div>
-</div>
-`
-</pre>
-
 In this example, when someone clicks an .accordion-toggle link, I want to get the .accordion element, but I don’t neccessarily know how many nested div’s will be in the markup.
 
 ### Creating a helper function 
