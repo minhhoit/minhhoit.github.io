@@ -6,8 +6,6 @@ categories: ["tips", "javascript"]
 tags: ["tips", "javascript", "jquery"]
 ---
 
-## How to get the closest parent element with a matching selector using vanilla JavaScript
-
 One thing I need to do a lot in my plugins is find a parent element with a particular selector.
 
 For example, when someone clicks on a link in an accordion, I need to get the parent container for all of the other content sections. I don’t always know exactly what the markup structure will look like, so I can’t just use .parentNode to get it.
