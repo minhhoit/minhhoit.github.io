@@ -24,13 +24,13 @@ The system clock runs in the kernel and after getting its initial time from the 
 
 We can manually synchronize the hardware clock to the system clock if required, this would generally only be required if there was no NTP server available.
 <pre>
-`hwclock --hctosys`
+hwclock --hctosys
 </pre>
 
 We can also reverse the process and synchronize the system clock to the hardware clock.
 
 <pre>
-`hwclock --systohc`
+hwclock --systohc
 </pre>
 
 In CentOS 7 by default chronyd will update the hardware clock with NTP every 11 minutes, in previous versions of the OS this was only done at shutdown/reboot. This configuration is defined by ‘rtcsync’ in /etc/chrony.conf
@@ -70,15 +70,19 @@ Now let’s take a look at configuring NTP with either chronyd or ntpd.
 By default in CentOS 7 chrony is the default NTP client/server so it should already be installed if you’re also using this operating system, otherwise you can install it if required as below.
 
 > yum install chrony -y
+
 Once installed we want to make sure that the chronyd service starts up automatically on boot so that we can maintain accurate time.
 
 > systemctl enable chronyd
+
 By default after installing the package the service will not be running, start chronyd if it’s not already running. Once the service starts it will automatically begin synchronizing time against the NTP servers defined in the configuration file.
 
 > systemctl start chronyd
+
 See our guide on managing systemd services with systemctl if you need further information on this.
 
 ### Configuration
+
 The configuration for chrony is stored in the /etc/chrony.conf file. The chrony package includes both chronyd and chronyc. Chronyd is the daemon that is actively running and synchronizing with an NTP server, while chronyc is a command line tool used for making various adjustments.
 
 At the top of the configuration file the default NTP servers are specified, in my test server they appear as below. We can define a preferred NTP server by placing “prefer” at the end of one of the server configuration lines.
