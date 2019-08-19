@@ -6,13 +6,13 @@ categories: ["react", "tips"]
 tags: ["tips", "react"]
 ---
 
-# 🚀 Absolutely Awesome React Components & Libraries
+## Absolutely Awesome React Components & Libraries
 
 This is a list of AWESOME components. Nope, it's NOT a comprehensive list of
 every React component under the sun. So, what does "awesome" mean? Well:
 
 - It solves a real problem
-- It does so in a 🦄 unique, 🦋 beautiful, or 🏆 exceptional way
+- It does so in a unique, 🦋 beautiful, or 🏆 exceptional way
 - It has recent code commits!
 
 Look for a 🚀 for truly amazing projects. And look for quickie maintainer
@@ -843,3 +843,7 @@ _Internationalization / L10n / localization / translation_
 
 - [gatsby](https://github.com/gatsbyjs/gatsby) - Transform plain text into dynamic blogs and websites using React.js.
 - [phenomic](https://github.com/MoOx/phenomic) - Modern static\* website generator based on the React and Webpack ecosystem.
+
+
+### References
+1. [https://github.com/brillout/awesome-react-components](https://github.com/brillout/awesome-react-components)
