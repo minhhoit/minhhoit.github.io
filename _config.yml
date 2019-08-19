@@ -215,3 +215,5 @@ prose:
 
 gems:
   - jekyll-paginate
+
+google_analytics: UA-145907910-1
