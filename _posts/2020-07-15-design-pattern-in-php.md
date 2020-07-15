@@ -21,9 +21,9 @@ Singleton pattern thuộc về Creational Design Pattern là một mẫu áp d�
 
 <pre>
 	<code>
-		class SomeClass {
-		  static private $_instance = NULL;
-		}
+class SomeClass {
+  static private $_instance = NULL;
+}
 	</code>
 </pre>
 
@@ -53,54 +53,54 @@ Trong đối tượng đầu tiên của ứng dụng, thực thể được t�
 
 <pre>
 	<code>
-    /* The Config class.
-     * The class contains two attributes: $_instance and $settings.
-     * The class contains four methods:
-     * - __construct()
-     * - getInstance()
-     * - set()
-     * - get()
-     */
-    class Config {
+/* The Config class.
+ * The class contains two attributes: $_instance and $settings.
+ * The class contains four methods:
+ * - __construct()
+ * - getInstance()
+ * - set()
+ * - get()
+ */
+class Config {
 
-       static private $_instance = NULL;
-       private $_settings = array();
+   static private $_instance = NULL;
+   private $_settings = array();
 
-       // Private methods cannot be called
-       private function __construct() {}
-       private function __clone() {}
+   // Private methods cannot be called
+   private function __construct() {}
+   private function __clone() {}
 
-       // Phương thức này trả về một thực thể của class
-       static function getInstance() {
-          if (self::$_instance == NULL) {
-             self::$_instance = new Config();
-          }
-          return self::$_instance;
-       }
-       // Phương thức này thiết lập cấu hình
-       function set($index, $value) {
-          $this->_settings[$index] = $value;
-       }
-       // Phương thức này lấy thiết lập cấu hình
-       function get($index) {
-          return $this->_settings[$index];
-       }
-    }
-    // Tạo một đối tượng Config
-    $config = Config::getInstance();
+   // Phương thức này trả về một thực thể của class
+   static function getInstance() {
+      if (self::$_instance == NULL) {
+         self::$_instance = new Config();
+      }
+      return self::$_instance;
+   }
+   // Phương thức này thiết lập cấu hình
+   function set($index, $value) {
+      $this->_settings[$index] = $value;
+   }
+   // Phương thức này lấy thiết lập cấu hình
+   function get($index) {
+      return $this->_settings[$index];
+   }
+}
+// Tạo một đối tượng Config
+$config = Config::getInstance();
 
-    // Thiết lập các giá trị trong thuộc tính cấu hình
-    $config->set('database_connected', 'true');
+// Thiết lập các giá trị trong thuộc tính cấu hình
+$config->set('database_connected', 'true');
 
-    // In giá trị cấu hình
-    echo '<p>$config["database_connected"]: ' . $config->get('database_connected') . '</p>';
+// In giá trị cấu hình
+echo '$config["database_connected"]: ' . $config->get('database_connected');
 
-    // Tạo một đối tượng thứ hai
-    $test = Config::getInstance();
-    echo '<p>$test["database_connected"]: ' . $test->get('database_connected') . '</p>';
+// Tạo một đối tượng thứ hai
+$test = Config::getInstance();
+echo '$test["database_connected"]: ' . $test->get('database_connected');
 
-    // Xóa các đối tượng sau khi sử dụng
-    unset($config, $test);
+// Xóa các đối tượng sau khi sử dụng
+unset($config, $test);
 	</code>
 </pre>
 
@@ -112,7 +112,7 @@ Tần suất sử dụng: 5/5, Factory Pattern được sử dụng cực nhiề
 Factory pattern cũng như Singleton pattern thuộc về dạng Creational Design Pattern, tuy nhiên có một chút khác biệt. Singleton pattern áp dụng để tạo và quản lý một đối tượng duy nhất của một class trong khi Factory pattern được sử dụng để có thể tạo ra nhiều đối tượng khác nhau từ nhiều class. Tại sao cần Factory pattern trong khi chúng ta có thể tạo được đối tượng từ Singleton Pattern? Vấn đề là ở chỗ đôi khi chúng ta không biết trước được là muốn tạo đối tượng từ class cụ thể nào, do đó việc chỉ định class để tạo ra đối tượng cần phải được gán động. Factory pattern cần sử dụng một lớp trìu tượng (abstract class) và có một phương thức static, được quy ước tên là Create(), factory(), factoryMethod() hoặc createInstance(). Phương thức này có một tham số để nhận biết dạng đối tượng cần tạo và trả về đối tượng này.
 
 <pre>
-	<code>
+<code>
 static function Create($type) {
   // Kiểm tra tham số $type và tạo đối tượng từ class tương ứng để trả về.
   return new SomeClassType();
@@ -123,127 +123,127 @@ static function Create($type) {
 Có vẻ chưa hiểu lắm, không sao, ví dụ tiếp theo sẽ giúp bạn hiểu ngay thôi. Chúng ta quay trở lại ví dụ về các hình chữ nhật (rectangle), hình tam giác (triangle). Chúng ta tạo ra file `factory.php` trong thư mục `oop\pattern` với nội dung như sau:
 
 <pre>
-	<code>
-    #------------ ĐỊNH NGHĨA CLASS ----------------------#
-    /* Định nghĩa class ShapeFactory sử dụng Factory pattern
-     * The class contains no attributes.
-     * The class contains one method: Create().
-     */
-    abstract class ShapeFactory {
-        // Phương thức static để tạo đối tượng
-        static function Create($type, array $sizes) {
-            // Xác định dạng đối tượng theo tham số nhận vào
-            switch ($type) {
-                case 'rectangle':
-                    return new Rectangle($sizes[0], $sizes[1]);
-                    break;
-                case 'triangle':
-                    return new Triangle($sizes[0], $sizes[1], $sizes[2]);
-                    break;
-            }
+<code>
+#------------ ĐỊNH NGHĨA CLASS ----------------------#
+/* Định nghĩa class ShapeFactory sử dụng Factory pattern
+ * The class contains no attributes.
+ * The class contains one method: Create().
+ */
+abstract class ShapeFactory {
+    // Phương thức static để tạo đối tượng
+    static function Create($type, array $sizes) {
+        // Xác định dạng đối tượng theo tham số nhận vào
+        switch ($type) {
+            case 'rectangle':
+                return new Rectangle($sizes[0], $sizes[1]);
+                break;
+            case 'triangle':
+                return new Triangle($sizes[0], $sizes[1], $sizes[2]);
+                break;
         }
     }
+}
 
-    /* Định nghĩa lớp trìu tượng Shape
-     * Lớp Shape không có thuộc tính
-     * Lớp Shape có 2 phương thức trìu tượng:
-     * - getArea()
-     * - getPerimeter()
-    */
-    abstract class Shape {
-        abstract protected function getArea();
-        abstract protected function getPerimeter();
+/* Định nghĩa lớp trìu tượng Shape
+ * Lớp Shape không có thuộc tính
+ * Lớp Shape có 2 phương thức trìu tượng:
+ * - getArea()
+ * - getPerimeter()
+*/
+abstract class Shape {
+    abstract protected function getArea();
+    abstract protected function getPerimeter();
+}
+
+/* Định nghĩa lớp Triangle
+ * Lớp Triangle có 2 thuộc tính:
+ * - private $_sides (array)
+ * - private $_perimeter (number)
+ * Lớp Triangle có 3 phương thức:
+ * - _ _construct()
+ * - getArea()
+ * - getPerimeter()
+ */
+class Triangle extends Shape {
+    private $_sides = array();
+    private $_perimeter = NULL;
+    function __construct($s0 = 0, $s1 = 0, $s2 = 0) {
+        $this->_sides[] = $s0;
+        $this->_sides[] = $s1;
+        $this->_sides[] = $s2;
+
+        // Tính toán và thiết lập chu vi hình tam giác
+        $this->_perimeter = array_sum($this->_sides);
+    }
+    // Phương thức tính diện tích hình tam giác từ chu vi và các cạnh
+    public function getArea() {
+        return (SQRT(($this->_perimeter/2) * (($this->_perimeter/2) - $this->_sides[0]) * (($this->_perimeter/2) - $this->_sides[1]) * (($this->_perimeter/2) - $this->_sides[2])));
+    }
+    // Phương thức lấy chu vi hình tam giác
+    public function getPerimeter() {
+        return $this->_perimeter;
+    }
+}
+
+/* Định nghĩa class Rectangle
+* Các thuộc tính của class: width(chiều rộng), height(chiều cao).
+* Các phương thức của lớp:
+* - setSize()
+* - getArea()
+* - getPerimeter()
+* - isSquare()
+*/
+class Rectangle {
+    // Khai báo các thuộc tính
+    public $width = 0;
+    public $height = 0;
+
+    // Hàm khởi tạo
+    function __construct($w = 0, $h = 0) {
+       $this->width = $w;
+       $this->height = $h;
     }
 
-    /* Định nghĩa lớp Triangle
-     * Lớp Triangle có 2 thuộc tính:
-     * - private $_sides (array)
-     * - private $_perimeter (number)
-     * Lớp Triangle có 3 phương thức:
-     * - _ _construct()
-     * - getArea()
-     * - getPerimeter()
-     */
-    class Triangle extends Shape {
-        private $_sides = array();
-        private $_perimeter = NULL;
-        function __construct($s0 = 0, $s1 = 0, $s2 = 0) {
-            $this->_sides[] = $s0;
-            $this->_sides[] = $s1;
-            $this->_sides[] = $s2;
-
-            // Tính toán và thiết lập chu vi hình tam giác
-            $this->_perimeter = array_sum($this->_sides);
-        }
-        // Phương thức tính diện tích hình tam giác từ chu vi và các cạnh
-        public function getArea() {
-            return (SQRT(($this->_perimeter/2) * (($this->_perimeter/2) - $this->_sides[0]) * (($this->_perimeter/2) - $this->_sides[1]) * (($this->_perimeter/2) - $this->_sides[2])));
-        }
-        // Phương thức lấy chu vi hình tam giác
-        public function getPerimeter() {
-            return $this->_perimeter;
-        }
+    // Phương thức này thiết lập các kích thước của hình chữ nhật
+    function setSize($w = 0, $h = 0) {
+        $this->width = $w;
+        $this->height = $h;
     }
 
-    /* Định nghĩa class Rectangle
-    * Các thuộc tính của class: width(chiều rộng), height(chiều cao).
-    * Các phương thức của lớp:
-    * - setSize()
-    * - getArea()
-    * - getPerimeter()
-    * - isSquare()
-    */
-    class Rectangle {
-        // Khai báo các thuộc tính
-        public $width = 0;
-        public $height = 0;
-
-        // Hàm khởi tạo
-        function __construct($w = 0, $h = 0) {
-           $this->width = $w;
-           $this->height = $h;
-        }
-
-        // Phương thức này thiết lập các kích thước của hình chữ nhật
-        function setSize($w = 0, $h = 0) {
-            $this->width = $w;
-            $this->height = $h;
-        }
-
-        // Phương thức này tính diện tích hình chữ nhật
-        function getArea() {
-            return ($this->width * $this->height);
-        }
-
-        // Phương thức này tính chu vi hình chữ nhật
-        function getPerimeter() {
-            return ( ($this->width + $this->height) * 2 );
-        }
-
-        // Phương thức này kiểm tra xem hình chữ nhật này có phải là hình vuông
-        function isSquare() {
-            if ($this->width == $this->height) {
-                return true; // Hình chữ nhật
-            } else {
-                return false; // Không phải hình chữ nhật
-            }
-        }
-    }
-    #------------ KẾT THÚC ĐỊNH NGHĨA CLASS ----------------------#
-
-    if (isset($_GET['shape'], $_GET['dimensions'])) {
-        // Tạo ra một đối tượng từ với thông số từ query string
-        $obj = ShapeFactory::Create($_GET['s'], $_GET['d']);
-
-        echo "<h2>Tạo ra hình {$_GET['shape']}:</h2>";
-        echo '<p>Diện tích hình: ' . $obj->getArea() . '</p>';
-        echo '<p>Chu vi hình: ' . $obj->getPerimeter() . '</p>';
-    } else {
-        echo '<p>Cần cung cấp hình dạng và kích thước!</p>';
+    // Phương thức này tính diện tích hình chữ nhật
+    function getArea() {
+        return ($this->width * $this->height);
     }
 
-    // Xóa đối tượng
-    unset($obj);
+    // Phương thức này tính chu vi hình chữ nhật
+    function getPerimeter() {
+        return ( ($this->width + $this->height) * 2 );
+    }
+
+    // Phương thức này kiểm tra xem hình chữ nhật này có phải là hình vuông
+    function isSquare() {
+        if ($this->width == $this->height) {
+            return true; // Hình chữ nhật
+        } else {
+            return false; // Không phải hình chữ nhật
+        }
+    }
+}
+#------------ KẾT THÚC ĐỊNH NGHĨA CLASS ----------------------#
+
+if (isset($_GET['shape'], $_GET['dimensions'])) {
+    // Tạo ra một đối tượng từ với thông số từ query string
+    $obj = ShapeFactory::Create($_GET['s'], $_GET['d']);
+
+    echo "Tạo ra hình {$_GET['shape']}:";
+    echo 'Diện tích hình: ' . $obj->getArea();
+    echo 'Chu vi hình: ' . $obj->getPerimeter();
+} else {
+    echo 'Cần cung cấp hình dạng và kích thước!';
+}
+
+// Xóa đối tượng
+unset($obj);
 </code>
 </pre>
 
@@ -260,7 +260,7 @@ Tần suất sử dụng 4/5, Composite pattern được sử dụng khá nhiề
 Hai pattern đầu thuộc về Creational Design Pattern, tiếp theo chúng ta sẽ làm quen với Composite Pattern nó là Structural Design Pattern, là mẫu thiết kế liên quan đến cấu trúc, kết cấu của các đối tượng. Nó được áp dụng để cấu trúc một class theo tiêu chuẩn hoặc điều chỉnh cấu trúc một class đang tồn tại. Trong thực tế, một form HTML có thể chứa một hoặc nhiều các thành phần form, mỗi thành phần này sẽ có cùng các hành vi như hiển thị, kiểm tra dữ liệu, hiển thị lỗi… Nếu không áp dụng các mẫu thì chúng ta sẽ lặp đi lặp lại code rất nhiều và giải pháp cho vấn đề này là ứng dụng Composite pattern. Chúng ta tạo ra một abstract class:
 
 <pre>
-	<code>
+<code>
 abstract class FormComponent {
   abstract function add (FormComponent $obj);
   abstract function remove (FormComponent $obj);
@@ -273,7 +273,7 @@ abstract class FormComponent {
 
 Lớp trìu tượng ở trên có sử dụng type hinting (cách xác định dạng dữ liệu cho tham số), hai phương thức đầu chính là cách mà Composite pattern sử dụng. Mỗi lớp con sẽ kế thừa từ lớp cha và nó cần phải định nghĩa các phương thức trìu tượng được implement từ lớp cha trìu tượng. Ví dụ:
 <pre>
-	<code>
+<code>
 class Form extends FormComponent {
   private $_elements = array();
   function add(FormComponent $obj) {
@@ -297,7 +297,7 @@ class FormElement extends FormComponent {
 Class Form định nghĩa phương thức add() được implement từ FormConponent, nó cho phép bạn thêm thành phần vào form:
 
 <pre>
-	<code>
+<code>
 $form = new Form();
 $email = new FormElement();
 $form->add($email);
@@ -307,115 +307,115 @@ $form->add($email);
 Chú ý là FormElement cũng định nghĩa phương thức add(), nhưng phương thức này không làm gì cả, vì chúng ta không cần thêm thành phần form vào một thành phần form. Thay vào đó, phương thức add() này trả về đối tượng được thêm vào hoặc trả về một giá trị hoặc bung ra một lỗi. Với ví dụ ở dạng mẫu trên, chúng ta vẫn chưa thật sự hiểu rõ về Composite pattern. Một ví dụ cụ thể tiếp theo sẽ giúp bạn hiểu chi tiết. Ví dụ dưới đây về một ứng dụng quản lý các công việc cần làm của một nhóm và của từng thành viên trong nhóm.
 
 <pre>
-	<code>
-    Ví dụ về Composite pattern
-    <?php
-    #------------ ĐỊNH NGHĨA CLASS ----------------------#
-    /* Định nghĩa class WorkUnit sử dụng Composite pattern
-     * Lớp có 2 thuộc tính: tasks, name.
-     * Lớp có 5 phương thức: __construct(), getName(), add(), remove(), assignTask(), completeTask().
-     */
-    abstract class WorkUnit {
-        // Các tác vụ cần làm
-        protected $tasks = array();
-        // Lưu tên nhân viên hoặc tên nhóm
-        protected $name = NULL;
+<code>
+Ví dụ về Composite pattern
+<?php
+#------------ ĐỊNH NGHĨA CLASS ----------------------#
+/* Định nghĩa class WorkUnit sử dụng Composite pattern
+ * Lớp có 2 thuộc tính: tasks, name.
+ * Lớp có 5 phương thức: __construct(), getName(), add(), remove(), assignTask(), completeTask().
+ */
+abstract class WorkUnit {
+    // Các tác vụ cần làm
+    protected $tasks = array();
+    // Lưu tên nhân viên hoặc tên nhóm
+    protected $name = NULL;
 
-        function __construct($name) {
-            $this->name = $name;
-        }
-        function getName() {
-            return $this->name;
-        }
-        // Các phương thức trìu tượng cần thực hiện
-        abstract function add(Employee $e);
-        abstract function remove(Employee $e);
-        abstract function assignTask($task);
-        abstract function completeTask($task);
+    function __construct($name) {
+        $this->name = $name;
+    }
+    function getName() {
+        return $this->name;
+    }
+    // Các phương thức trìu tượng cần thực hiện
+    abstract function add(Employee $e);
+    abstract function remove(Employee $e);
+    abstract function assignTask($task);
+    abstract function completeTask($task);
+}
+
+/* Lớp Team mở rộng từ lớp WorkUnit.
+ * Lớp có 1 thuộc tính: _employees.
+ * Lớp có 1 phương thức: getCount().
+ */
+class Team extends WorkUnit {
+    // Lưu các thành viên của nhóm
+    private $_employees = array();
+
+    // Thực hiện các phương thức trìu tượng
+    function add(Employee $e) {
+        $this->_employees[] = $e;
+        echo "{$e->getName()} gia nhập nhóm {$this->getName()}.";
+    }
+    function remove(Employee $e) {
+        $index = array_search($e, $this->_employees);
+        unset($this->_employees[$index]);
+        echo "{$e->getName()} bị đuổi khỏi nhóm {$this->getName()}.";
+    }
+    function assignTask($task) {
+        $this->tasks[] = $task;
+        echo "Một tác vụ được gán cho nhóm {$this->getName()}. Nó có thể hoàn thành dễ dàng với {$this->getCount()} thành viên.</p>";
+    }
+    function completeTask($task) {
+        $index = array_search($task, $this->tasks);
+        unset($this->tasks[$index]);
+        echo "Nhiệm vụ '$task' đã hoàn thành bởi nhóm {$this->getName()}.";
+    }
+    // Phương thức trả về số thành viên trong nhóm
+    function getCount() {
+        return count($this->_employees);
+    }
+}
+
+/* Lớp Employee mở rộng từ lớp WorkUnit
+ * Lớp không có thuộc tính và phương thức nào
+ */
+class Employee extends WorkUnit {
+    // Empty functions
+    function add(Employee $e) {
+        return false;
+    }
+    function remove(Employee $e) {
+        return false;
     }
 
-    /* Lớp Team mở rộng từ lớp WorkUnit.
-     * Lớp có 1 thuộc tính: _employees.
-     * Lớp có 1 phương thức: getCount().
-     */
-    class Team extends WorkUnit {
-        // Lưu các thành viên của nhóm
-        private $_employees = array();
-
-        // Thực hiện các phương thức trìu tượng
-        function add(Employee $e) {
-            $this->_employees[] = $e;
-            echo "<p>{$e->getName()} gia nhập nhóm {$this->getName()}.</p>";
-        }
-        function remove(Employee $e) {
-            $index = array_search($e, $this->_employees);
-            unset($this->_employees[$index]);
-            echo "<p>{$e->getName()} bị đuổi khỏi nhóm {$this->getName()}.</p>";
-        }
-        function assignTask($task) {
-            $this->tasks[] = $task;
-            echo "<p>Một tác vụ được gán cho nhóm {$this->getName()}. Nó có thể hoàn thành dễ dàng với {$this->getCount()} thành viên.</p>";
-        }
-        function completeTask($task) {
-            $index = array_search($task, $this->tasks);
-            unset($this->tasks[$index]);
-            echo "<p>Nhiệm vụ '$task' đã hoàn thành bởi nhóm {$this->getName()}.</p>";
-        }
-        // Phương thức trả về số thành viên trong nhóm
-        function getCount() {
-            return count($this->_employees);
-        }
+    // Thực hiện phương thức trìu tượng
+    function assignTask($task) {
+        $this->tasks[] = $task;
+        echo "Một tác vụ được gán cho {$this->getName()}. Tác vụ này phải được hoàn thành bởi một mình {$this->getName()}.";
+    }
+    function completeTask($task) {
+        $index = array_search($task, $this->tasks);
+        unset($this->tasks[$index]);
+        echo "Nhiệm vụ '$task' được hoàn thành bởi {$this->getName()}.";
     }
 
-    /* Lớp Employee mở rộng từ lớp WorkUnit
-     * Lớp không có thuộc tính và phương thức nào
-     */
-    class Employee extends WorkUnit {
-        // Empty functions
-        function add(Employee $e) {
-            return false;
-        }
-        function remove(Employee $e) {
-            return false;
-        }
+}
+#------------ KẾT THÚC ĐỊNH NGHĨA CLASS ----------------------#
 
-        // Thực hiện phương thức trìu tượng
-        function assignTask($task) {
-            $this->tasks[] = $task;
-            echo "<p>Một tác vụ được gán cho {$this->getName()}. Tác vụ này phải được hoàn thành bởi một mình {$this->getName()}.</p>";
-        }
-        function completeTask($task) {
-            $index = array_search($task, $this->tasks);
-            unset($this->tasks[$index]);
-            echo "<p>Nhiệm vụ '$task' được hoàn thành bởi {$this->getName()}. </p>";
-        }
+// Tạo đối tượng
+$fontend = new Team('Fontend');
+$kulit = new Employee('Kulit');
+$evan = new Employee('Evan You');
+$taylor = new Employee('Taylor Otwell');
 
-    }
-    #------------ KẾT THÚC ĐỊNH NGHĨA CLASS ----------------------#
+// Gán nhân viên vào nhóm fontend
+$fontend->add($kulit);
+$fontend->add($evan);
+$fontend->add($taylor);
 
-    // Tạo đối tượng
-    $fontend = new Team('Fontend');
-    $kulit = new Employee('Kulit');
-    $evan = new Employee('Evan You');
-    $taylor = new Employee('Taylor Otwell');
+// Gán các tác vụ cho nhóm và nhân viên
+$fontend->assignTask('Xây dựng website');
+$evan->assignTask('Xây dựng fontend');
+// Hoàn thành một tác vụ
+$fontend->completeTask('Xây dựng website');
 
-    // Gán nhân viên vào nhóm fontend
-    $fontend->add($kulit);
-    $fontend->add($evan);
-    $fontend->add($taylor);
+// Chuyển Taylor Otwell sang nhóm backend
+$fontend->remove($taylor);
 
-    // Gán các tác vụ cho nhóm và nhân viên
-    $fontend->assignTask('Xây dựng website');
-    $evan->assignTask('Xây dựng fontend');
-    // Hoàn thành một tác vụ
-    $fontend->completeTask('Xây dựng website');
-
-    // Chuyển Taylor Otwell sang nhóm backend
-    $fontend->remove($taylor);
-
-    // Xóa các đối tượng
-    unset($fontend, $kulit, $evan, $taylor);
-    </code>
+// Xóa các đối tượng
+unset($fontend, $kulit, $evan, $taylor);
+</code>
 </pre>
 
 Trong ví dụ này có nhóm và nhân viên, nhóm cũng có công việc của nhóm và nhân viên có công việc của nhân viên. Áp dụng Composite Pattern giúp chúng ta nhìn nhận Nhóm cũng giống như Nhân viên, và các xử lý trên Nhóm và Nhân viên là tương tự nhau.
@@ -431,7 +431,7 @@ Mỗi dạng Design Pattern sẽ giới thiệu một Pattern tiêu biểu và B
 Thông thường chúng ta sẽ làm 3 giải pháp và áp dụng chúng vào các chuỗi cần lọc. Các bộ lọc có thể được áp dụng một cách khác nhau. Đầu tiên, định nghĩa `interface` với các tính năng cần thiết
 
 <pre>
-	<code>
+<code>
 interface Filter {
   function filter($str);
 }
@@ -441,7 +441,7 @@ interface Filter {
 Xác định dạng bộ lọc sau đó implement các phiên bản thích hợp của phương thức trong interface:
 
 <pre>
-	<code>
+<code>
 class HtmlFilter implements Filter {
   function filter($str) {
     // Loại bỏ mã HTML
@@ -460,7 +460,7 @@ class SwearFilter implements Filter {
 Cuối cùng, sử dụng bộ lọc trong một class khác.
 
 <pre>
-	<code>
+<code>
 class FormData {
   private $_data = NULL;
   function __construct($input) {
@@ -476,7 +476,7 @@ class FormData {
 Phương thức process() nhận một đối tượng dạng Filter và thông qua đó dữ liệu được lọc.
 
 <pre>
-	<code>
+<code>
 $form = new FormData($someUserInput);
 if (!$allowHTML) {
   $form->process(new HtmlFilter());
@@ -490,137 +490,135 @@ if (!allowSwear) {
 OK, lý thuyết là như vậy, chúng ta cùng áp dụng vào thực tế, ví dụ về một ứng dụng quản lý sinh viên. Tạo ra file strategy.php trong oop\pattern với nội dung:
 
 <pre>
-	<code>
-    // Interface Sort định nghĩa phương thức sort()
-    interface iSort {
-        function sort(array $list);
+<code>
+// Interface Sort định nghĩa phương thức sort()
+interface iSort {
+    function sort(array $list);
+}
+
+// Lớp MultiAlphaSort sắp xếp mảng đa chiều chứa ký tự
+class MultiAlphaSort implements iSort {
+    // Cách sắp xếp: tăng dần, giảm dần
+    private $_order;
+
+    // Sort index:
+    private $_index;
+
+    function __construct($index, $order = 'ascending') {
+        $this->_index = $index;
+        $this->_order = $order;
     }
 
-    // Lớp MultiAlphaSort sắp xếp mảng đa chiều chứa ký tự
-    class MultiAlphaSort implements iSort {
-        // Cách sắp xếp: tăng dần, giảm dần
-        private $_order;
+    // Phương thức thực hiện sắp xếp
+    function sort(array $list) {
 
-        // Sort index:
-        private $_index;
-
-        function __construct($index, $order = 'ascending') {
-            $this->_index = $index;
-            $this->_order = $order;
+        // Change the algorithm to match the sort preference:
+        if ($this->_order == 'ascending') {
+            uasort($list, array($this, 'ascSort'));
+        } else {
+            uasort($list, array($this, 'descSort'));
         }
+        return $list;
+    }
+    // Phương thức so sánh hai giá trị
+    function ascSort($x, $y) {
+        return strcasecmp($x[$this->_index], $y[$this->_index]);
+    }
+    function descSort($x, $y) {
+        return strcasecmp($y[$this->_index], $x[$this->_index]);
+    }
+}
 
-        // Phương thức thực hiện sắp xếp
-        function sort(array $list) {
+// Class MultiNumberSort sắp xếp một mảng đa chiều
+class MultiNumberSort implements iSort {
+    // Cách sắp xếp
+    private $_order;
 
-            // Change the algorithm to match the sort preference:
-            if ($this->_order == 'ascending') {
-                uasort($list, array($this, 'ascSort'));
-            } else {
-                uasort($list, array($this, 'descSort'));
-            }
-            return $list;
+    // Sort index
+    private $_index;
+
+    function __construct($index, $order = 'ascending') {
+        $this->_index = $index;
+        $this->_order = $order;
+    }
+
+    // Thực hiện sắp xếp
+    function sort(array $list) {
+        // Thay đổi thuật toán phù hợp với thiết lập
+        if ($this->_order == 'ascending') {
+            uasort($list, array($this, 'ascSort'));
+        } else {
+            uasort($list, array($this, 'descSort'));
         }
-        // Phương thức so sánh hai giá trị
-        function ascSort($x, $y) {
-            return strcasecmp($x[$this->_index], $y[$this->_index]);
-        }
-        function descSort($x, $y) {
-            return strcasecmp($y[$this->_index], $x[$this->_index]);
+        return $list;
+    }
+    // Phương thức so sánh hai giá trị
+    function ascSort($x, $y) {
+        return ($x[$this->_index] > $y[$this->_index]);
+    }
+    function descSort($x, $y) {
+        return ($x[$this->_index] < $y[$this->_index]);
+    }
+}
+
+/* Lớp StudentsList
+ * Lớp có 1 thuộc tính: _students.
+ * Lớp có 3 phương thức:
+ * - __construct()
+ * - sort()
+ * - display()
+ */
+class StudentsList {
+    // Danh sách sinh viên được sắp xếp 
+    private $_students = array();
+
+    function __construct($list) {
+        $this->_students = $list;
+    }
+
+    // Thực hiện sắp xếp sử dụng một thực thi từ iSort
+    function sort(iSort $type) {
+        $this->_students = $type->sort($this->_students);
+    }
+
+    // Hiển thị danh sách sinh viên dạng HTML
+    function display() {
+        foreach ($this->_students as $student) {
+            echo "{$student['last_name']} {$student['first_name']} : {$student['grade']}";
         }
     }
 
-    // Class MultiNumberSort sắp xếp một mảng đa chiều
-    class MultiNumberSort implements iSort {
-        // Cách sắp xếp
-        private $_order;
+}
 
-        // Sort index
-        private $_index;
+// Tạo mảng sinh viên, mỗi sinh viên có cấu trúc studentID => array('first_name' => 'First Name', 'last_name' => 'Last Name', 'grade' => XX.X)
+$students = array(
+    256 => array('first_name' => 'Tuấn', 'last_name' => 'Trần Đăng', 'grade' => 98.5),
+    2   => array('first_name' => 'An', 'last_name' => 'Nguyễn Xuân', 'grade' => 85.1),
+    9   => array('first_name' => 'Dương', 'last_name' => 'Nguyễn Ngọc', 'grade' => 94.0),
+    364 => array('first_name' => 'Chiến', 'last_name' => 'Hoàng Văn', 'grade' => 85.1),
+    68  => array('first_name' => 'Phương', 'last_name' => 'Trần Thanh', 'grade' => 74.6)
+);
 
-        function __construct($index, $order = 'ascending') {
-            $this->_index = $index;
-            $this->_order = $order;
-        }
+// Tạo đối tượng
+$list = new StudentsList($students);
 
-        // Thực hiện sắp xếp
-        function sort(array $list) {
-            // Thay đổi thuật toán phù hợp với thiết lập
-            if ($this->_order == 'ascending') {
-                uasort($list, array($this, 'ascSort'));
-            } else {
-                uasort($list, array($this, 'descSort'));
-            }
-            return $list;
-        }
-        // Phương thức so sánh hai giá trị
-        function ascSort($x, $y) {
-            return ($x[$this->_index] > $y[$this->_index]);
-        }
-        function descSort($x, $y) {
-            return ($x[$this->_index] < $y[$this->_index]);
-        }
-    }
+// Hiển thị mảng trước khi sắp xếp
+echo 'Danh sách gốc';
+$list->display();
 
-    /* Lớp StudentsList
-     * Lớp có 1 thuộc tính: _students.
-     * Lớp có 3 phương thức:
-     * - __construct()
-     * - sort()
-     * - display()
-     */
-    class StudentsList {
-        // Danh sách sinh viên được sắp xếp 
-        private $_students = array();
+// Sắp xếp theo tên
+$list->sort(new MultiAlphaSort('first_name'));
+echo 'Danh sách sắp xếp theo tên';
+$list->display();
 
-        function __construct($list) {
-            $this->_students = $list;
-        }
+// Sắp xếp theo điểm
+$list->sort(new MultiNumberSort('grade', 'descending'));
+echo 'Danh sách sắp xếp theo điểm';
+$list->display();
 
-        // Thực hiện sắp xếp sử dụng một thực thi từ iSort
-        function sort(iSort $type) {
-            $this->_students = $type->sort($this->_students);
-        }
-
-        // Hiển thị danh sách sinh viên dạng HTML
-        function display() {
-            echo '<ol>';
-            foreach ($this->_students as $student) {
-                echo "<li>{$student['last_name']} {$student['first_name']} : {$student['grade']}</li>";
-            }
-            echo '</ol>';
-        }
-
-    }
-
-    // Tạo mảng sinh viên, mỗi sinh viên có cấu trúc studentID => array('first_name' => 'First Name', 'last_name' => 'Last Name', 'grade' => XX.X)
-    $students = array(
-        256 => array('first_name' => 'Tuấn', 'last_name' => 'Trần Đăng', 'grade' => 98.5),
-        2   => array('first_name' => 'An', 'last_name' => 'Nguyễn Xuân', 'grade' => 85.1),
-        9   => array('first_name' => 'Dương', 'last_name' => 'Nguyễn Ngọc', 'grade' => 94.0),
-        364 => array('first_name' => 'Chiến', 'last_name' => 'Hoàng Văn', 'grade' => 85.1),
-        68  => array('first_name' => 'Phương', 'last_name' => 'Trần Thanh', 'grade' => 74.6)
-    );
-
-    // Tạo đối tượng
-    $list = new StudentsList($students);
-
-    // Hiển thị mảng trước khi sắp xếp
-    echo '<h2>Danh sách gốc</h2>';
-    $list->display();
-
-    // Sắp xếp theo tên
-    $list->sort(new MultiAlphaSort('first_name'));
-    echo '<h2>Danh sách sắp xếp theo tên</h2>';
-    $list->display();
-
-    // Sắp xếp theo điểm
-    $list->sort(new MultiNumberSort('grade', 'descending'));
-    echo '<h2>Danh sách sắp xếp theo điểm</h2>';
-    $list->display();
-
-    // Xóa đối tượng
-    unset($list);
-	</code>
+// Xóa đối tượng
+unset($list);
+</code>
 </pre>
 
 Trong ví dụ này chúng ta thấy rằng cùng là hành vi `sort()` nhưng nó khác nhau ở các thời điểm khác nhau, chỗ thì sắp xếp tên, chỗ thì sắp xếp điểm. Như vậy việc áp dụng `Strategy Pattern` giúp chúng ta thay đổi được hành vi của một đối tượng trong thời gian chạy.
@@ -637,7 +635,7 @@ Controller quản lý dữ liệu người dùng nhập vào và cập nhật sa
 Chúng ta cùng đến với một ví dụ cụ thể để thấy được cách áp dụng MVC trong thực tế, trong ví dụ này chúng ta sẽ xây dựng một ứng dụng quản lý game thủ đế chế. Tạo ra thư mục `OOP/MVC` để bắt đầu bạn nhé. Đầu tiên chúng ta tạo ra file `Model.php` với nội dung:
 
 <pre>
-	<code>
+<code>
 class Model {
     private $gamers;
 
@@ -672,54 +670,6 @@ class Model {
     }
 }
 </code>
-</pre>
-
-Tiếp theo chúng ta tạo ra View.php với nội dung:
-
-<pre>
-	<code>
-	<div class="container">
-	    <h2><span class="glyphicon glyphicon-user"></span>Danh sách game thủ</h2>
-	    <div class="row">
-	        <div class="col-md-3">
-	        <ul>
-	            <?php
-	            foreach ($gamers as $g) {
-	                echo '<li>';
-	                echo '<a href="', $_SERVER['SCRIPT_NAME'], '/PageController/getGamerByName/', $g['name'], '">', $g['name'], '</a><br>';
-	                echo $g['adress'], '<br>';
-	                echo '--<a href="', $_SERVER['SCRIPT_NAME'], '/PageController/getGamersByCity/', $g['city'], '">', $g['city'], '</a>';
-	                echo '</li>';
-	            }
-	            ?>
-	        </ul>
-	        </div><!--end col-->
-	        <div class="col-md-5">
-	        <ul>
-	            <?php
-	            if (isset($gamer)) {
-	                echo 'Thông tin chi tiết về game thủ:';
-	                echo '<li>';
-	                echo '<a href="', $_SERVER['SCRIPT_NAME'], '/PageController/getGamerByName/', $gamer['name'], '">', $gamer['name'], '</a><br></li>';
-	                echo '<li>', $gamer['adress'], '</li>';
-	                echo '<li>', $gamer['city'], '</li>';
-	            }
-	            if (isset($gamersInCities)) {
-	                echo 'Các game thủ ở: <b>', $gamersInCities[0]['city'], '</b>';
-	                foreach ($gamersInCities as $g) {
-	                    echo '<li>';
-	                    echo '<a href="', $_SERVER['SCRIPT_NAME'], '/PageController/getGamersByCity/', $g['name'], '">', $g['name'], ' </a>';
-	                    echo $g['adress'], ' ';
-	                    echo $g['city'];
-	                    echo '</li>';
-	                }
-	            }
-	            ?>
-	        </ul>
-	        </div><!--end col-->
-	    </div><!--end row-->
-	</div>
-	<code>
 </pre>
 
 Cuối cùng chúng ta tạo ra Controller.php:
@@ -787,7 +737,7 @@ class Controller {
 Như vậy, chúng ta đã có đủ 3 thành phần Model, View và Controller, tiếp theo chúng ta sử dụng cả 3 thành phần này để xử lý ứng dụng. Tạo file index.php là nơi tiếp nhận yêu cầu từ người dùng:
 
 <pre>
-	<code>
+<code>
 include('./Controller.php');
 $controller = new Controller();
 $controller->handle();
