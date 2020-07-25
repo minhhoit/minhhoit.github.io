@@ -3,7 +3,7 @@ layout: post
 title: List of Useful Magento 2
 comments: false
 categories: ["php"]
-tags: ["php", "magento2" "tips"]
+tags: ["php", "tips"]
 ---
 
 Instead of running for that commands, why not bookmark this post for any future requirements as it is the compilation of all useful Magento 2 SSH commands. You need to have SSH access to your server or use the Command Line for local access.
