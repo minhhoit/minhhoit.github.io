@@ -8,7 +8,7 @@ tags: ["php", "magento2" "tips"]
 
 Instead of running for that commands, why not bookmark this post for any future requirements as it is the compilation of all useful Magento 2 SSH commands. You need to have SSH access to your server or use the Command Line for local access.
 
-### List of Useful Magento 2 SSH Commands, Sorted!
+## List of Useful Magento 2 SSH Commands, Sorted!
 
 | SSH Commands	| Shortcuts | Description |
 | *Available commands: * |  &nbsp; | &nbsp; |
