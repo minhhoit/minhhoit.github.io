@@ -694,3 +694,6 @@ td.gutter {
 .posts-list {
   padding-top: 50px;
 }
+.blog-post {
+  overflow: hidden;
+}
