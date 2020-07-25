@@ -2,7 +2,7 @@
 layout: post
 title: List of Useful Magento 2
 comments: false
-categories: ["php", "magento2", "tips"]
+categories: ["php"]
 tags: ["php", "magento2" "tips"]
 ---
 
