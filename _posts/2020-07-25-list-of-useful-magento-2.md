@@ -10,9 +10,10 @@ Instead of running for that commands, why not bookmark this post for any future 
 
 ## List of Useful Magento 2 SSH Commands, Sorted!
 
-| SSH Commands	| Shortcuts | Description |
+Instead of running for that commands, why not bookmark this post for any future requirements as it is the compilation of all useful Magento 2 SSH commands. 
+| SSH Commands | Shortcuts | Description |
 | *Available commands: * |  &nbsp; | &nbsp; |
-| help | <code>h</code>code> |	Displays help for a command |
+| help | <code>h</code> |	Displays help for a command |
 | `php bin/magento list` | <code>php bin/magento l</code> |	Lists commands |
 | *Admin: * |  &nbsp; | &nbsp; |
 | `php bin/magento admin:user:create` |	<code>php bin/magento a:u:c</code> | Creates an administrator |
