@@ -7,11 +7,11 @@ tags: ["php", "tips"]
 ---
 
 Instead of running for that commands, why not bookmark this post for any future requirements as it is the compilation of all useful Magento 2 SSH commands. You need to have SSH access to your server or use the Command Line for local access.
-<span style="display: none;">5e4511cff09ee5470fca43d568da30334080d697</span>
 
 ## List of Useful Magento 2 SSH Commands, Sorted!
 
 For official information, check [here](https://devdocs.magento.com/guides/v2.2/config-guide/cli/config-cli-subcommands.html).
+<span style="display: none;">5e4511cff09ee5470fca43d568da30334080d697</span>
 
 | **SSH Commands** | **Shortcuts** | **Description** |
 | **Available commands:** | &nbsp; | &nbsp; |
