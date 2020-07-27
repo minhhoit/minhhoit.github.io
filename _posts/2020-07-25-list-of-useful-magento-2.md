@@ -12,6 +12,7 @@ Instead of running for that commands, why not bookmark this post for any future 
 
 For official information, check [here](https://devdocs.magento.com/guides/v2.2/config-guide/cli/config-cli-subcommands.html).
 <span style="display: none;">5e4511cff09ee5470fca43d568da30334080d697</span>
+<span style="display: none;">all:e0ca06d129d0e2a13d803d136e558d6e8de64578</span>
 
 | **SSH Commands** | **Shortcuts** | **Description** |
 | **Available commands:** | &nbsp; | &nbsp; |
